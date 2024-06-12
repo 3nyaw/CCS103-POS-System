@@ -73,7 +73,7 @@ public class Login {
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblPassword);
 		
-		usernameField = new JTextField("Type your username");
+		usernameField = new JTextField("Username");
 		usernameField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -89,7 +89,7 @@ public class Login {
 		usernameField.setColumns(10);
 		frame.getContentPane().add(usernameField);
 		
-		passwordField = new JPasswordField("Type your password");
+		passwordField = new JPasswordField("Password");
 		passwordField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
