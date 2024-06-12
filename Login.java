@@ -87,8 +87,8 @@ public class Login {
 		passwordField.setBounds(131, 107, 209, 20);
 		frame.getContentPane().add(passwordField);
 		
-		String user = "1234";
-		String pass = "1234";
+		String user = "admin123";
+		String pass = "secret123";
 		
 		
 		JButton btnLogin = new JButton("Login");
