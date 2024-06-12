@@ -1,63 +1,64 @@
 package Frames;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Cursor;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.JPanel;
-import java.awt.SystemColor;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 
 public class Login {
 
-	private JFrame frame;
-	private JTextField usernameField;
-	private JPasswordField passwordField;
+    private JFrame frame;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.frame.setTitle("Page Turn | Login");
-					window.frame.setVisible(true);
-					window.frame.setResizable(false);
-					window.frame.setLocationRelativeTo(null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Login window = new Login();
+                    window.frame.setTitle("Page Turn | Login");
+                    window.frame.setVisible(true);
+                    window.frame.setResizable(false);
+                    window.frame.setLocationRelativeTo(null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the application.
-	 */
-	public Login() {
-		
-		initialize();
-	}
+    /**
+     * Create the application.
+     */
+    public Login() {
+        initialize();
+    }
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+    /**
+     * Initialize the contents of the frame.
+     */
+    private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 410, 275);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,22 +113,24 @@ public class Login {
 		btnLogin.setBackground(SystemColor.textHighlight);
 		btnLogin.setBounds(155, 190, 76, 23);
 		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = usernameField.getText();
-				String password = new String(passwordField.getPassword());
-			       if (username.equals(user) && password.equals(pass)) {
-						Dashboard dashboard = new Dashboard();
-						dashboard.Dashboard.setVisible(true);
-	                	frame.setVisible(false);
-	                	JOptionPane.showMessageDialog(frame, "Login successfully!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE);
+            public void actionPerformed(ActionEvent e) {
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                boolean loginSuccess = username.equals(user) && password.equals(pass);
 
-	                } else {
-	                	JOptionPane.showMessageDialog(frame, "Invalid input!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE );
-	                }
-	                usernameField.setText("");
-	                passwordField.setText("");
-				}
-			});
+                if (loginSuccess) {
+                    Dashboard dashboard = new Dashboard();
+                    dashboard.Dashboard.setVisible(true);
+                    frame.setVisible(false);
+                    JOptionPane.showMessageDialog(frame, "Login successfully!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE);
+                    logLoginAttempt(username, true); // Log only successful logins
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Invalid input!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE);
+                }
+                usernameField.setText("");
+                passwordField.setText("");
+            }
+        });
 		btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLogin.setSelected(true);
 		frame.getContentPane().add(btnLogin);
@@ -155,4 +158,17 @@ public class Login {
 		panel.setBounds(0, 0, 394, 50);
 		frame.getContentPane().add(panel);
 	}
+
+    private void logLoginAttempt(String username, boolean success) {
+        if (success) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("login_history.txt", true))) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                writer.write(dtf.format(now) + " - Username: " + username + " - Status: SUCCESS");
+                writer.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
