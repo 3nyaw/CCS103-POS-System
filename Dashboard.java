@@ -65,9 +65,10 @@ public class Dashboard {
 		panel.add(lblPointOfSale);
 		
 		JLabel lblDashboard = new JLabel("   Dashboard");
+		lblDashboard.setForeground(new Color(0, 0, 0));
 		lblDashboard.setOpaque(true);
 		lblDashboard.setBackground(new Color(128, 128, 128));
-		lblDashboard.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblDashboard.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblDashboard.setBounds(20, 192, 245, 40);
 		panel.add(lblDashboard);
 		
@@ -111,6 +112,10 @@ public class Dashboard {
 		lblAccount.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblAccount.setBounds(20, 345, 245, 40);
 		panel.add(lblAccount);
+		
+		JPanel pnlHeader = new JPanel();
+		pnlHeader.setBackground(Color.GRAY);
+		pnlHeader.setBounds(274, 0, 1650, 90);
+		Dashboard.getContentPane().add(pnlHeader);
 	}
-
 }
