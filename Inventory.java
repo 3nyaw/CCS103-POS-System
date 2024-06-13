@@ -147,15 +147,15 @@ public class Inventory {
         // Table
         String[] columnNames = {"Category", "Product", "Price"};
         Object[][] initialData = {
-                {"NOVEL", "Dune", 0.0},
-                {"NOVEL", "Crime and Punishment", 0.0},
-                {"NOVEL", "The Song of Achilles", 0.0},
-                {"SELF-HELP/PHILOSOPHY", "Meditations", 0.0},
-                {"SELF-HELP/PHILOSOPHY", "Ego is the Enemy", 0.0},
-                {"SELF-HELP/PHILOSOPHY", "The Mountain is You", 0.0},
-                {"HISTORY", "The Diary of a Girl", 0.0},
-                {"HISTORY", "Noli me Tangere", 0.0},
-                {"HISTORY", "The First Voyage", 0.0}
+                {"NOVEL", "Dune", "$5.99"},
+                {"NOVEL", "Crime and Punishment", "$13.99"},
+                {"NOVEL", "The Song of Achilles", "$12.68"},
+                {"SELF-HELP/PHILOSOPHY", "Meditations", "$9.99"},
+                {"SELF-HELP/PHILOSOPHY", "Ego is the Enemy", "$14.39"},
+                {"SELF-HELP/PHILOSOPHY", "The Mountain is You", "$17.99"},
+                {"HISTORY", "The Diary of a Girl", "$7.19"},
+                {"HISTORY", "Noli me Tangere", "$15.49"},
+                {"HISTORY", "The First Voyage", "$47.26"}
         };
 
         tableModel = new DefaultTableModel(initialData, columnNames) {
