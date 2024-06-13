@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,6 +30,8 @@ public class Sales {
 	private JTable tblPurchase;
 	private JTextField textField;
 	private JLabel lblTotal;
+	private boolean purchaseMade = false;
+
 	/**
 	 * Launch the application.
 	 */
@@ -183,7 +186,7 @@ public class Sales {
 		lblDuneCover.setBounds(0, 0, 133, 200);
 		pnlDune.add(lblDuneCover);
 		
-		JLabel lblDune = new JLabel("Dune");
+		JLabel lblDune = new JLabel("Dune \t");
 		lblDune.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblDune.setBounds(143, 11, 62, 29);
 		pnlDune.add(lblDune);
@@ -338,7 +341,7 @@ public class Sales {
 		lblMeditationsCover.setBounds(0, 0, 133, 200);
 		pnlMeditations.add(lblMeditationsCover);
 		
-		JLabel lblMeditations = new JLabel("Meditations");
+		JLabel lblMeditations = new JLabel("Meditations \t");
 		lblMeditations.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblMeditations.setBounds(143, 11, 267, 30);
 		pnlMeditations.add(lblMeditations);
@@ -593,7 +596,7 @@ public class Sales {
 		lblVoyageCover.setBounds(0, 0, 133, 200);
 		pnlVoyage.add(lblVoyageCover);
 		
-		JLabel lblVoyage = new JLabel("The First Voyage Around the World");
+		JLabel lblVoyage = new JLabel("The First Voyage");
 		lblVoyage.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblVoyage.setBounds(143, 11, 267, 30);
 		pnlVoyage.add(lblVoyage);
@@ -723,7 +726,6 @@ public class Sales {
 			}
 		});
 
-		
 		//dune
 		btnDunePlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -948,5 +950,78 @@ public class Sales {
 				addTable(909, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
 			}
 		});
+		
+		//delete button
+		 btnDelete.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 int selectedRow = tblPurchase.getSelectedRow();
+				 if (selectedRow != -1) {
+					 DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+					 tableModel.removeRow(selectedRow);
+					 updateTotal();
+				 } else {
+					 JOptionPane.showMessageDialog(Sales, "Please select a row to delete", "Error", JOptionPane.ERROR_MESSAGE);
+				 }
+			 }
+		 });
+		 
+		 //purchase button
+		 btnPurchse.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 if (textField.getText().trim().isEmpty()) {
+		                JOptionPane.showMessageDialog(Sales, "Please enter cash amount", "Error", JOptionPane.ERROR_MESSAGE);
+				 } else {
+					 try {
+						 double cash = Double.parseDouble(textField.getText().trim());
+						 double total = Double.parseDouble(lblTotal.getText().replace("TOTAL: $", ""));
+
+						 if (cash < total) {
+		                        JOptionPane.showMessageDialog(Sales, "Insufficient cash", "Error", JOptionPane.ERROR_MESSAGE);
+						 } else {
+							 double balance = cash - total;
+							 DecimalFormat df = new DecimalFormat("#.00");
+							 lblBalance.setText("BALANCE: $" + df.format(balance));
+							 JOptionPane.showMessageDialog(Sales, "Purchase successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+							 purchaseMade = true;
+						 }
+					 } catch (NumberFormatException ex) {
+		                    JOptionPane.showMessageDialog(Sales, "Invalid cash amount", "Error", JOptionPane.ERROR_MESSAGE);
+					 }
+				 }
+			 }
+		 });
+		 
+		 //print button
+		 btnPrint.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+			     DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+				 if (!purchaseMade) {
+					 JOptionPane.showMessageDialog(Sales, "No purchase has been made", "Error", JOptionPane.ERROR_MESSAGE);
+				 }
+				 else {
+					 try {
+						 txtaReceipt.setText("\t                 TurnPage \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "\tKatapatan Homes, Banay-banay \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "\t         Cabuyao City, Laguna \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "\t            0912-350-8966 \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "  --------------------------------------------------------------------------------  \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + String.format("   %-45s %5s %25s \n", "Item", "Quantity", "Price"));					 txtaReceipt.setText(txtaReceipt.getText() + "  --------------------------------------------------------------------------------  \n");
+						 for (int i = 0; i < tblPurchase.getRowCount(); i++) {
+							 String name = tableModel.getValueAt(i, 1).toString();
+							 String quantity = tableModel.getValueAt(i, 2).toString();
+							 String price = tableModel.getValueAt(i, 3).toString();
+				             txtaReceipt.setText(txtaReceipt.getText() + "  " + name + "\t" + quantity + "\t" + price + "\n");
+						 }
+						 
+						 txtaReceipt.setText(txtaReceipt.getText() + "  --------------------------------------------------------------------------------  \n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "SUB " + lblTotal.getText() + "\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "CASH: " +textField.getText() + "\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + lblBalance.getText() + "\n");
+					 } catch (Exception ex) {
+						 ex.printStackTrace();
+					 }
+				 }
+			 }
+		 });
 	}
 }
