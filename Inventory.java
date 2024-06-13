@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
 
 public class Inventory {
 
@@ -140,7 +141,7 @@ public class Inventory {
         lblSearch.setBounds(10, 12, 90, 14);
         pnlTop.add(lblSearch);
 
-        // Table
+        
         String[] columnNames = {"Category", "Product", "Price"};
         Object[][] initialData = {
                 {"NOVEL", "Dune", 0.0},
@@ -268,6 +269,12 @@ public class Inventory {
         btnRemoveProduct.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+            }
+        });
+
+        btnRestock.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(Inventory, "Your request is sent to the supplier!\nExpect an e-mail for the next 24 hours");
             }
         });
     }
