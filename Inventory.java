@@ -177,6 +177,7 @@ public class Inventory {
         contentPanel.add(scrollPane);
         
         JLabel lblStock = new JLabel("Stock");
+        lblStock.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblStock.setBounds(1449, 173, 49, 14);
         contentPanel.add(lblStock);
         
@@ -280,12 +281,10 @@ public class Inventory {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tblList.getSelectedRow();
                 if (selectedRow != -1) {
-                    JOptionPane.showMessageDialog(Inventory, "Your request is sent to the supplier!\nExpect an e-mail for the next 24 hours");
-                } else {
-                    JOptionPane.showMessageDialog(Inventory, "Please select a row in the table before requesting a re-stock.");
+                    JOptionPane.showMessageDialog(Inventory, "Your request was sent to the supplier!\nExpect an e-mail for the next 24 hours");
                 }
-            }
-        });
+                }}
+        );
 
         tblList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
