@@ -203,12 +203,12 @@ public class Inventory {
         
         JLabel lblPhilo2 = new JLabel("0");
         lblPhilo2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPhilo2.setBounds(1310, 316, 49, 25);
+        lblPhilo2.setBounds(1310, 313, 49, 25);
         contentPanel.add(lblPhilo2);
         
         JLabel lblPhilo3 = new JLabel("0");
         lblPhilo3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPhilo3.setBounds(1310, 347, 49, 25);
+        lblPhilo3.setBounds(1310, 344, 49, 25);
         contentPanel.add(lblPhilo3);
         
         JLabel lblHis1 = new JLabel("0");
@@ -218,7 +218,7 @@ public class Inventory {
         
         JLabel lblHis2 = new JLabel("0");
         lblHis2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblHis2.setBounds(1310, 405, 49, 25);
+        lblHis2.setBounds(1310, 403, 49, 25);
         contentPanel.add(lblHis2);
         
         JLabel lblHis3 = new JLabel("0");
