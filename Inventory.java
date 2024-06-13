@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class Inventory {
 
@@ -24,6 +26,7 @@ public class Inventory {
     private DefaultTableModel tableModel;
     private JTextField txtSearchBar;
     private JTextField txtCategory, txtProduct;
+    private JButton btnRestock;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -141,7 +144,7 @@ public class Inventory {
         lblSearch.setBounds(10, 12, 90, 14);
         pnlTop.add(lblSearch);
 
-        
+        // Table
         String[] columnNames = {"Category", "Product", "Price"};
         Object[][] initialData = {
                 {"NOVEL", "Dune", 0.0},
@@ -245,9 +248,10 @@ public class Inventory {
         btnRemoveProduct.setBounds(800, 10, 150, 30);
         pnlBottom.add(btnRemoveProduct);
 
-        JButton btnRestock = new JButton("Request Re-stock");
+        btnRestock = new JButton("Request Re-stock");
         btnRestock.setFont(new Font("Tahoma", Font.PLAIN, 16));
         btnRestock.setBounds(1000, 10, 186, 30);
+        btnRestock.setEnabled(false); // Initially disable the button
         pnlBottom.add(btnRestock);
 
         JLabel lblProduct = new JLabel("Product:");
@@ -274,7 +278,21 @@ public class Inventory {
 
         btnRestock.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(Inventory, "Your request is sent to the supplier!\nExpect an e-mail for the next 24 hours");
+                int selectedRow = tblList.getSelectedRow();
+                if (selectedRow != -1) {
+                    JOptionPane.showMessageDialog(Inventory, "Your request is sent to the supplier!\nExpect an e-mail for the next 24 hours");
+                } else {
+                    JOptionPane.showMessageDialog(Inventory, "Please select a row in the table before requesting a re-stock.");
+                }
+            }
+        });
+
+        tblList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tblList.getSelectedRow();
+                    btnRestock.setEnabled(selectedRow != -1);
+                }
             }
         });
     }
