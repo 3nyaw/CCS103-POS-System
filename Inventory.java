@@ -282,9 +282,10 @@ public class Inventory {
                 int selectedRow = tblList.getSelectedRow();
                 if (selectedRow != -1) {
                     JOptionPane.showMessageDialog(Inventory, "Your request was sent to the supplier!\nExpect an e-mail for the next 24 hours");
+                    btnRestock.setEnabled(false); // Disable the button after it's clicked
                 }
-                }}
-        );
+            }
+        });
 
         tblList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
