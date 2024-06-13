@@ -3,34 +3,32 @@ package Frames;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
+import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
-import javax.swing.JList;
 import javax.swing.JTable;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import javax.swing.ImageIcon;
-import java.awt.Dimension;
-import javax.swing.JButton;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class Sales {
 
 	JFrame Sales;
 	private JTable tblPurchase;
 	private JTextField textField;
-
+	private JLabel lblTotal;
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +51,50 @@ public class Sales {
 	public Sales() {
 		initialize();
 	}
+	
+	/**
+	 * Methods.
+	 */
+	public void addTable(int id, String name, int quantity, Double price) {
+        DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+        boolean itemExists = false;
 
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if ((int) tableModel.getValueAt(i, 0) == id) {
+                int currentQuantity = (int) tableModel.getValueAt(i, 2);
+                tableModel.setValueAt(currentQuantity + quantity, i, 2);
+                tableModel.setValueAt((currentQuantity + quantity) * price, i, 3);
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (!itemExists) {
+            Vector<Object> v = new Vector<>();
+            v.add(id);
+            v.add(name);
+            v.add(quantity);
+            v.add(price * quantity);
+            tableModel.addRow(v);
+        }
+        updateTotal();
+	}
+	
+    public void updateTotal() {
+        DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+        double total = 0;
+
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            double price = (Double) tableModel.getValueAt(i, 3);
+            total += price;
+        }
+
+        DecimalFormat df = new DecimalFormat("#.00");
+        String formattedTotal = df.format(total);
+
+        lblTotal.setText("TOTAL: $" + formattedTotal);
+    }
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -70,6 +111,11 @@ public class Sales {
 		menu.setBounds(0, 0, 275, 1061);
 		Sales.getContentPane().add(menu);
 		menu.setLayout(null);
+		
+		JPanel pnlHeader = new JPanel();
+		pnlHeader.setBackground(new Color(128, 128, 128));
+		pnlHeader.setBounds(274, 0, 1650, 90);
+		Sales.getContentPane().add(pnlHeader);
 		
 		JLabel lblTitle = new JLabel("PageTurn");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 48));
@@ -106,35 +152,15 @@ public class Sales {
 		menu.add(lblSales);
 		
 		JLabel lblInventory = new JLabel("Inventory");
-		lblInventory.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Inventory inventory = new Inventory();
-				inventory.Inventory.setVisible(true);
-				Sales.dispose();
-			}
-		});
 		lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblInventory.setBounds(20, 294, 245, 40);
 		menu.add(lblInventory);
 		
 		JLabel lblAccount = new JLabel("Account");
-		lblAccount.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Account account = new Account();
-				account.Account.setVisible(true);
-				Sales.dispose();
-			}
-		});
+
 		lblAccount.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblAccount.setBounds(20, 345, 245, 40);
 		menu.add(lblAccount);
-		
-		JPanel pnlHeader = new JPanel();
-		pnlHeader.setBackground(new Color(128, 128, 128));
-		pnlHeader.setBounds(274, 0, 1650, 90);
-		Sales.getContentPane().add(pnlHeader);
 		
 		JPanel pnlBooks = new JPanel();
 		pnlBooks.setBackground(new Color(255, 255, 255));
@@ -162,16 +188,23 @@ public class Sales {
 		lblDune.setBounds(143, 11, 62, 29);
 		pnlDune.add(lblDune);
 		
-		JLabel lblByFrankHerbet = new JLabel("by Frank Herbet");
-		lblByFrankHerbet.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet.setBounds(143, 41, 99, 17);
-		pnlDune.add(lblByFrankHerbet);
+		JLabel lblDuneAuthor = new JLabel("by Frank Herbet");
+		lblDuneAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDuneAuthor.setBounds(143, 41, 99, 17);
+		pnlDune.add(lblDuneAuthor);
 		
 		JLabel lblDunePrice = new JLabel("$5.99");
 		lblDunePrice.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDunePrice.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblDunePrice.setBounds(143, 130, 113, 49);
 		pnlDune.add(lblDunePrice);
+		
+		JLabel lblDuneQuantity = new JLabel("1");
+		lblDuneQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblDuneQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDuneQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDuneQuantity.setBounds(317, 94, 53, 30);
+		pnlDune.add(lblDuneQuantity);
 		
 		JButton btnDunePlus = new JButton("+");
 		btnDunePlus.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -184,13 +217,6 @@ public class Sales {
 		btnDuneMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnDuneMinus.setBounds(277, 94, 30, 30);
 		pnlDune.add(btnDuneMinus);
-		
-		JLabel lblDuneQuantity = new JLabel("1");
-		lblDuneQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity.setBounds(317, 94, 53, 30);
-		pnlDune.add(lblDuneQuantity);
 		
 		JButton btnDuneScan = new JButton("SCAN");
 		btnDuneScan.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -212,10 +238,10 @@ public class Sales {
 		lblCrime.setBounds(143, 11, 267, 30);
 		pnlCrime.add(lblCrime);
 		
-		JLabel lblByFrankHerbet_1 = new JLabel("by Frank Herbet");
-		lblByFrankHerbet_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1.setBounds(143, 41, 267, 20);
-		pnlCrime.add(lblByFrankHerbet_1);
+		JLabel lblCrimeAuthor = new JLabel("by Fyodor Dostoevsky");
+		lblCrimeAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCrimeAuthor.setBounds(143, 41, 267, 20);
+		pnlCrime.add(lblCrimeAuthor);
 		
 		JLabel lblCrimePrice = new JLabel("$13.99");
 		lblCrimePrice.setHorizontalAlignment(SwingConstants.CENTER);
@@ -223,18 +249,18 @@ public class Sales {
 		lblCrimePrice.setBounds(143, 130, 113, 49);
 		pnlCrime.add(lblCrimePrice);
 		
-		JButton btnCrimeMinus = new JButton("-");
-		btnCrimeMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnCrimeMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnCrimeMinus.setBounds(277, 94, 30, 30);
-		pnlCrime.add(btnCrimeMinus);
-		
 		JLabel lblCrimeQuantity = new JLabel("1");
 		lblCrimeQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCrimeQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblCrimeQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblCrimeQuantity.setBounds(317, 94, 53, 30);
 		pnlCrime.add(lblCrimeQuantity);
+		
+		JButton btnCrimeMinus = new JButton("-");
+		btnCrimeMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnCrimeMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnCrimeMinus.setBounds(277, 94, 30, 30);
+		pnlCrime.add(btnCrimeMinus);
 		
 		JButton btnCrimePlus = new JButton("+");
 		btnCrimePlus.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -252,7 +278,7 @@ public class Sales {
 		pnlBooks.add(pnlAchilles);
 		pnlAchilles.setLayout(null);
 		
-		JLabel lblAchillesCover = new JLabel("");
+		JLabel lblAchillesCover = new JLabel();
 		lblAchillesCover.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\POSSystem\\img\\songOfAchilles.png"));
 		lblAchillesCover.setBounds(0, 0, 133, 200);
 		pnlAchilles.add(lblAchillesCover);
@@ -262,45 +288,45 @@ public class Sales {
 		lblAchilles.setBounds(143, 11, 267, 30);
 		pnlAchilles.add(lblAchilles);
 		
-		JLabel lblByFrankHerbet_1_1 = new JLabel("by Madelline Miller");
-		lblByFrankHerbet_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1.setBounds(143, 41, 267, 20);
-		pnlAchilles.add(lblByFrankHerbet_1_1);
+		JLabel lblAchillesAuthor = new JLabel("by Madelline Miller");
+		lblAchillesAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAchillesAuthor.setBounds(143, 41, 267, 20);
+		pnlAchilles.add(lblAchillesAuthor);
 		
-		JLabel lblDunePrice_2 = new JLabel("$12.68");
-		lblDunePrice_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_2.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDunePrice_2.setBounds(143, 130, 113, 49);
-		pnlAchilles.add(lblDunePrice_2);
+		JLabel lblAchillesPrice = new JLabel("$12.68");
+		lblAchillesPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAchillesPrice.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblAchillesPrice.setBounds(143, 130, 113, 49);
+		pnlAchilles.add(lblAchillesPrice);
 		
-		JButton btnDuneMinus_2 = new JButton("-");
-		btnDuneMinus_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_2.setBounds(277, 94, 30, 30);
-		pnlAchilles.add(btnDuneMinus_2);
+		JLabel lblAchillesQuantity = new JLabel("1");
+		lblAchillesQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAchillesQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblAchillesQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblAchillesQuantity.setBounds(317, 94, 53, 30);
+		pnlAchilles.add(lblAchillesQuantity);
 		
-		JLabel lblDuneQuantity_2 = new JLabel("1");
-		lblDuneQuantity_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_2.setBounds(317, 94, 53, 30);
-		pnlAchilles.add(lblDuneQuantity_2);
+		JButton btnAchillesMinus = new JButton("-");
+		btnAchillesMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnAchillesMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnAchillesMinus.setBounds(277, 94, 30, 30);
+		pnlAchilles.add(btnAchillesMinus);
 		
-		JButton btnDunePlus_2 = new JButton("+");
-		btnDunePlus_2.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_2.setBounds(380, 94, 30, 30);
-		pnlAchilles.add(btnDunePlus_2);
+		JButton btnAchillesPlus = new JButton("+");
+		btnAchillesPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnAchillesPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnAchillesPlus.setBounds(380, 94, 30, 30);
+		pnlAchilles.add(btnAchillesPlus);
 		
-		JButton btnDuneScan_2 = new JButton("SCAN");
-		btnDuneScan_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_2.setBounds(277, 135, 133, 54);
-		pnlAchilles.add(btnDuneScan_2);
+		JButton btnAchillesScan = new JButton("SCAN");
+		btnAchillesScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnAchillesScan.setBounds(277, 135, 133, 54);
+		pnlAchilles.add(btnAchillesScan);
 		
-		JLabel lblHistory = new JLabel("Self-help");
-		lblHistory.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblHistory.setBounds(10, 273, 410, 30);
-		pnlBooks.add(lblHistory);
+		JLabel lblSelfHelp = new JLabel("Self-help");
+		lblSelfHelp.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblSelfHelp.setBounds(10, 273, 410, 30);
+		pnlBooks.add(lblSelfHelp);
 		
 		JPanel pnlMeditations = new JPanel();
 		pnlMeditations.setBounds(0, 314, 420, 200);
@@ -317,40 +343,40 @@ public class Sales {
 		lblMeditations.setBounds(143, 11, 267, 30);
 		pnlMeditations.add(lblMeditations);
 		
-		JLabel lblByFrankHerbet_1_1_1_1_1 = new JLabel("by Marcus Aurelius");
-		lblByFrankHerbet_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1_1_1.setBounds(143, 41, 267, 20);
-		pnlMeditations.add(lblByFrankHerbet_1_1_1_1_1);
+		JLabel lblMeditationsAuthor = new JLabel("by Marcus Aurelius");
+		lblMeditationsAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMeditationsAuthor.setBounds(143, 41, 267, 20);
+		pnlMeditations.add(lblMeditationsAuthor);
 		
-		JLabel lblDunePrice_3 = new JLabel("$9.99");
-		lblDunePrice_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_3.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblDunePrice_3.setBounds(143, 130, 113, 49);
-		pnlMeditations.add(lblDunePrice_3);
+		JLabel lblMeditationsPrice = new JLabel("$9.99");
+		lblMeditationsPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMeditationsPrice.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblMeditationsPrice.setBounds(143, 130, 113, 49);
+		pnlMeditations.add(lblMeditationsPrice);
 		
-		JButton btnDuneMinus_3 = new JButton("-");
-		btnDuneMinus_3.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_3.setBounds(277, 94, 30, 30);
-		pnlMeditations.add(btnDuneMinus_3);
+		JLabel lblMeditationsQuantity = new JLabel("1");
+		lblMeditationsQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMeditationsQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblMeditationsQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblMeditationsQuantity.setBounds(317, 94, 53, 30);
+		pnlMeditations.add(lblMeditationsQuantity);
 		
-		JLabel lblDuneQuantity_3 = new JLabel("1");
-		lblDuneQuantity_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_3.setBounds(317, 94, 53, 30);
-		pnlMeditations.add(lblDuneQuantity_3);
+		JButton btnMeditationsMinus = new JButton("-");
+		btnMeditationsMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnMeditationsMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnMeditationsMinus.setBounds(277, 94, 30, 30);
+		pnlMeditations.add(btnMeditationsMinus);
 		
-		JButton btnDunePlus_3 = new JButton("+");
-		btnDunePlus_3.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_3.setBounds(380, 94, 30, 30);
-		pnlMeditations.add(btnDunePlus_3);
+		JButton btnMeditationsPlus = new JButton("+");
+		btnMeditationsPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnMeditationsPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnMeditationsPlus.setBounds(380, 94, 30, 30);
+		pnlMeditations.add(btnMeditationsPlus);
 		
-		JButton btnDuneScan_3 = new JButton("SCAN");
-		btnDuneScan_3.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_3.setBounds(277, 135, 133, 54);
-		pnlMeditations.add(btnDuneScan_3);
+		JButton btnMeditationsScan = new JButton("SCAN");
+		btnMeditationsScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnMeditationsScan.setBounds(277, 135, 133, 54);
+		pnlMeditations.add(btnMeditationsScan);
 		
 		JPanel pnlEgo = new JPanel();
 		pnlEgo.setBounds(429, 314, 420, 200);
@@ -367,40 +393,40 @@ public class Sales {
 		lblEgo.setBounds(143, 11, 267, 30);
 		pnlEgo.add(lblEgo);
 		
-		JLabel lblByFrankHerbet_1_1_1_1 = new JLabel("by Ryan Holiday");
-		lblByFrankHerbet_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1_1.setBounds(143, 41, 267, 20);
-		pnlEgo.add(lblByFrankHerbet_1_1_1_1);
+		JLabel lblEgoAuthor = new JLabel("by Ryan Holiday");
+		lblEgoAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblEgoAuthor.setBounds(143, 41, 267, 20);
+		pnlEgo.add(lblEgoAuthor);
 		
-		JLabel lblDunePrice_4 = new JLabel("$14.39");
-		lblDunePrice_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_4.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDunePrice_4.setBounds(143, 130, 113, 49);
-		pnlEgo.add(lblDunePrice_4);
+		JLabel lblEgoPrice = new JLabel("$14.39");
+		lblEgoPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEgoPrice.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblEgoPrice.setBounds(143, 130, 113, 49);
+		pnlEgo.add(lblEgoPrice);
 		
-		JButton btnDuneMinus_4 = new JButton("-");
-		btnDuneMinus_4.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_4.setBounds(277, 94, 30, 30);
-		pnlEgo.add(btnDuneMinus_4);
+		JLabel lblEgoQuantity = new JLabel("1");
+		lblEgoQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEgoQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblEgoQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblEgoQuantity.setBounds(317, 94, 53, 30);
+		pnlEgo.add(lblEgoQuantity);
 		
-		JLabel lblDuneQuantity_4 = new JLabel("1");
-		lblDuneQuantity_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_4.setBounds(317, 94, 53, 30);
-		pnlEgo.add(lblDuneQuantity_4);
+		JButton btnEgoMinus = new JButton("-");
+		btnEgoMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnEgoMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnEgoMinus.setBounds(277, 94, 30, 30);
+		pnlEgo.add(btnEgoMinus);
 		
-		JButton btnDunePlus_4 = new JButton("+");
-		btnDunePlus_4.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_4.setBounds(380, 94, 30, 30);
-		pnlEgo.add(btnDunePlus_4);
+		JButton btnEgoPlus = new JButton("+");
+		btnEgoPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnEgoPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnEgoPlus.setBounds(380, 94, 30, 30);
+		pnlEgo.add(btnEgoPlus);
 		
-		JButton btnDuneScan_4 = new JButton("SCAN");
-		btnDuneScan_4.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_4.setBounds(277, 135, 133, 54);
-		pnlEgo.add(btnDuneScan_4);
+		JButton btnEgoScan = new JButton("SCAN");
+		btnEgoScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnEgoScan.setBounds(277, 135, 133, 54);
+		pnlEgo.add(btnEgoScan);
 		
 		JPanel pnlMountain = new JPanel();
 		pnlMountain.setBounds(859, 314, 420, 200);
@@ -412,50 +438,50 @@ public class Sales {
 		lblMountainCover.setBounds(0, 0, 133, 200);
 		pnlMountain.add(lblMountainCover);
 		
-		JLabel lblTheMountainIs = new JLabel("The Mountain is You");
-		lblTheMountainIs.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblTheMountainIs.setBounds(143, 11, 267, 30);
-		pnlMountain.add(lblTheMountainIs);
+		JLabel lblMountain = new JLabel("The Mountain is You");
+		lblMountain.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblMountain.setBounds(143, 11, 267, 30);
+		pnlMountain.add(lblMountain);
 		
-		JLabel lblByFrankHerbet_1_1_1 = new JLabel("by Brianna West");
-		lblByFrankHerbet_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1.setBounds(143, 41, 267, 20);
-		pnlMountain.add(lblByFrankHerbet_1_1_1);
+		JLabel lblMountainAuthor = new JLabel("by Brianna West");
+		lblMountainAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMountainAuthor.setBounds(143, 41, 267, 20);
+		pnlMountain.add(lblMountainAuthor);
 		
-		JLabel lblDunePrice_5 = new JLabel("$17.99");
-		lblDunePrice_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_5.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDunePrice_5.setBounds(143, 130, 113, 49);
-		pnlMountain.add(lblDunePrice_5);
+		JLabel lblMountainPrice = new JLabel("$17.99");
+		lblMountainPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMountainPrice.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblMountainPrice.setBounds(143, 130, 113, 49);
+		pnlMountain.add(lblMountainPrice);
 		
-		JButton btnDuneMinus_5 = new JButton("-");
-		btnDuneMinus_5.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_5.setBounds(277, 94, 30, 30);
-		pnlMountain.add(btnDuneMinus_5);
+		JLabel lblMountainQuantity = new JLabel("1");
+		lblMountainQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMountainQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblMountainQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblMountainQuantity.setBounds(317, 94, 53, 30);
+		pnlMountain.add(lblMountainQuantity);
 		
-		JLabel lblDuneQuantity_5 = new JLabel("1");
-		lblDuneQuantity_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_5.setBounds(317, 94, 53, 30);
-		pnlMountain.add(lblDuneQuantity_5);
+		JButton btnMountainMinus = new JButton("-");
+		btnMountainMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnMountainMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnMountainMinus.setBounds(277, 94, 30, 30);
+		pnlMountain.add(btnMountainMinus);
 		
-		JButton btnDunePlus_5 = new JButton("+");
-		btnDunePlus_5.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_5.setBounds(380, 94, 30, 30);
-		pnlMountain.add(btnDunePlus_5);
+		JButton btnMountainPlus = new JButton("+");
+		btnMountainPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnMountainPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnMountainPlus.setBounds(380, 94, 30, 30);
+		pnlMountain.add(btnMountainPlus);
 		
-		JButton btnDuneScan_5 = new JButton("SCAN");
-		btnDuneScan_5.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_5.setBounds(277, 135, 133, 54);
-		pnlMountain.add(btnDuneScan_5);
+		JButton btnMountainScan = new JButton("SCAN");
+		btnMountainScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnMountainScan.setBounds(277, 135, 133, 54);
+		pnlMountain.add(btnMountainScan);
 		
-		JLabel lblHistory_1 = new JLabel("History");
-		lblHistory_1.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblHistory_1.setBounds(10, 535, 410, 30);
-		pnlBooks.add(lblHistory_1);
+		JLabel lblHistory = new JLabel("History");
+		lblHistory.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblHistory.setBounds(10, 535, 410, 30);
+		pnlBooks.add(lblHistory);
 		
 		JPanel pnlDiary = new JPanel();
 		pnlDiary.setBounds(0, 576, 420, 200);
@@ -472,40 +498,40 @@ public class Sales {
 		lblDiary.setBounds(143, 11, 267, 30);
 		pnlDiary.add(lblDiary);
 		
-		JLabel lblByFrankHerbet_1_1_1_1_1_1 = new JLabel("by Anne Frank");
-		lblByFrankHerbet_1_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1_1_1_1.setBounds(143, 41, 267, 20);
-		pnlDiary.add(lblByFrankHerbet_1_1_1_1_1_1);
+		JLabel lblDiaryAuthor = new JLabel("by Anne Frank");
+		lblDiaryAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDiaryAuthor.setBounds(143, 41, 267, 20);
+		pnlDiary.add(lblDiaryAuthor);
 		
-		JLabel lblDunePrice_6 = new JLabel("$7.19");
-		lblDunePrice_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_6.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblDunePrice_6.setBounds(143, 130, 113, 49);
-		pnlDiary.add(lblDunePrice_6);
+		JLabel lblDiaryPrice = new JLabel("$7.19");
+		lblDiaryPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDiaryPrice.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblDiaryPrice.setBounds(143, 130, 113, 49);
+		pnlDiary.add(lblDiaryPrice);
 		
-		JButton btnDuneMinus_6 = new JButton("-");
-		btnDuneMinus_6.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_6.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_6.setBounds(277, 94, 30, 30);
-		pnlDiary.add(btnDuneMinus_6);
+		JLabel lblDiaryQuantity = new JLabel("1");
+		lblDiaryQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDiaryQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDiaryQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblDiaryQuantity.setBounds(317, 94, 53, 30);
+		pnlDiary.add(lblDiaryQuantity);
 		
-		JLabel lblDuneQuantity_6 = new JLabel("1");
-		lblDuneQuantity_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_6.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_6.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_6.setBounds(317, 94, 53, 30);
-		pnlDiary.add(lblDuneQuantity_6);
+		JButton btnDiaryMinus = new JButton("-");
+		btnDiaryMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnDiaryMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnDiaryMinus.setBounds(277, 94, 30, 30);
+		pnlDiary.add(btnDiaryMinus);
 		
-		JButton btnDunePlus_6 = new JButton("+");
-		btnDunePlus_6.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_6.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_6.setBounds(380, 94, 30, 30);
-		pnlDiary.add(btnDunePlus_6);
+		JButton btnDiaryPlus = new JButton("+");
+		btnDiaryPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnDiaryPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnDiaryPlus.setBounds(380, 94, 30, 30);
+		pnlDiary.add(btnDiaryPlus);
 		
-		JButton btnDuneScan_6 = new JButton("SCAN");
-		btnDuneScan_6.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_6.setBounds(277, 135, 133, 54);
-		pnlDiary.add(btnDuneScan_6);
+		JButton btnDiaryScan = new JButton("SCAN");
+		btnDiaryScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnDiaryScan.setBounds(277, 135, 133, 54);
+		pnlDiary.add(btnDiaryScan);
 		
 		JPanel pnlNoli = new JPanel();
 		pnlNoli.setBounds(430, 576, 420, 200);
@@ -522,40 +548,40 @@ public class Sales {
 		lblNoli.setBounds(143, 11, 267, 30);
 		pnlNoli.add(lblNoli);
 		
-		JLabel lblByFrankHerbet_1_1_1_1_1_1_1 = new JLabel("by Jose Rizal");
-		lblByFrankHerbet_1_1_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1_1_1_1_1.setBounds(143, 41, 267, 20);
-		pnlNoli.add(lblByFrankHerbet_1_1_1_1_1_1_1);
+		JLabel lblNoliAuthor = new JLabel("by Jose Rizal");
+		lblNoliAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNoliAuthor.setBounds(143, 41, 267, 20);
+		pnlNoli.add(lblNoliAuthor);
 		
-		JLabel lblDunePrice_7 = new JLabel("$15.49");
-		lblDunePrice_7.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_7.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDunePrice_7.setBounds(143, 130, 113, 49);
-		pnlNoli.add(lblDunePrice_7);
+		JLabel lblNoliPrice = new JLabel("$15.49");
+		lblNoliPrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNoliPrice.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNoliPrice.setBounds(143, 130, 113, 49);
+		pnlNoli.add(lblNoliPrice);
 		
-		JButton btnDuneMinus_7 = new JButton("-");
-		btnDuneMinus_7.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_7.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_7.setBounds(277, 94, 30, 30);
-		pnlNoli.add(btnDuneMinus_7);
+		JLabel lblNoliQuantity = new JLabel("1");
+		lblNoliQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNoliQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNoliQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblNoliQuantity.setBounds(317, 94, 53, 30);
+		pnlNoli.add(lblNoliQuantity);
 		
-		JLabel lblDuneQuantity_7 = new JLabel("1");
-		lblDuneQuantity_7.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_7.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_7.setBounds(317, 94, 53, 30);
-		pnlNoli.add(lblDuneQuantity_7);
+		JButton btnNoliMinus = new JButton("-");
+		btnNoliMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnNoliMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnNoliMinus.setBounds(277, 94, 30, 30);
+		pnlNoli.add(btnNoliMinus);
 		
-		JButton btnDunePlus_7 = new JButton("+");
-		btnDunePlus_7.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_7.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_7.setBounds(380, 94, 30, 30);
-		pnlNoli.add(btnDunePlus_7);
+		JButton btnNoliPlus = new JButton("+");
+		btnNoliPlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnNoliPlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnNoliPlus.setBounds(380, 94, 30, 30);
+		pnlNoli.add(btnNoliPlus);
 		
-		JButton btnDuneScan_7 = new JButton("SCAN");
-		btnDuneScan_7.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_7.setBounds(277, 135, 133, 54);
-		pnlNoli.add(btnDuneScan_7);
+		JButton btnNoliScan = new JButton("SCAN");
+		btnNoliScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNoliScan.setBounds(277, 135, 133, 54);
+		pnlNoli.add(btnNoliScan);
 		
 		JPanel pnlVoyage = new JPanel();
 		pnlVoyage.setBounds(859, 576, 420, 200);
@@ -572,40 +598,40 @@ public class Sales {
 		lblVoyage.setBounds(143, 11, 267, 30);
 		pnlVoyage.add(lblVoyage);
 		
-		JLabel lblByFrankHerbet_1_1_1_1_1_1_1_1 = new JLabel("by Antonio Pigafetta");
-		lblByFrankHerbet_1_1_1_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblByFrankHerbet_1_1_1_1_1_1_1_1.setBounds(143, 41, 267, 20);
-		pnlVoyage.add(lblByFrankHerbet_1_1_1_1_1_1_1_1);
+		JLabel lblVoyageAuthor = new JLabel("by Antonio Pigafetta");
+		lblVoyageAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblVoyageAuthor.setBounds(143, 41, 267, 20);
+		pnlVoyage.add(lblVoyageAuthor);
 		
-		JLabel lblDunePrice_8 = new JLabel("$47.26");
-		lblDunePrice_8.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDunePrice_8.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblDunePrice_8.setBounds(143, 130, 113, 49);
-		pnlVoyage.add(lblDunePrice_8);
+		JLabel lblVoyagePrice = new JLabel("$47.26");
+		lblVoyagePrice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVoyagePrice.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblVoyagePrice.setBounds(143, 130, 113, 49);
+		pnlVoyage.add(lblVoyagePrice);
 		
-		JButton btnDuneMinus_8 = new JButton("-");
-		btnDuneMinus_8.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDuneMinus_8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDuneMinus_8.setBounds(277, 94, 30, 30);
-		pnlVoyage.add(btnDuneMinus_8);
+		JLabel lblVoyageQuantity = new JLabel("1");
+		lblVoyageQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVoyageQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblVoyageQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblVoyageQuantity.setBounds(317, 94, 53, 30);
+		pnlVoyage.add(lblVoyageQuantity);
 		
-		JLabel lblDuneQuantity_8 = new JLabel("1");
-		lblDuneQuantity_8.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuneQuantity_8.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDuneQuantity_8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lblDuneQuantity_8.setBounds(317, 94, 53, 30);
-		pnlVoyage.add(lblDuneQuantity_8);
+		JButton btnVoyageMinus = new JButton("-");
+		btnVoyageMinus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnVoyageMinus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnVoyageMinus.setBounds(277, 94, 30, 30);
+		pnlVoyage.add(btnVoyageMinus);
 		
-		JButton btnDunePlus_8 = new JButton("+");
-		btnDunePlus_8.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnDunePlus_8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		btnDunePlus_8.setBounds(380, 94, 30, 30);
-		pnlVoyage.add(btnDunePlus_8);
+		JButton btnVoyagePlus = new JButton("+");
+		btnVoyagePlus.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnVoyagePlus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		btnVoyagePlus.setBounds(380, 94, 30, 30);
+		pnlVoyage.add(btnVoyagePlus);
 		
-		JButton btnDuneScan_8 = new JButton("SCAN");
-		btnDuneScan_8.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnDuneScan_8.setBounds(277, 135, 133, 54);
-		pnlVoyage.add(btnDuneScan_8);
+		JButton btnVoyageScan = new JButton("SCAN");
+		btnVoyageScan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnVoyageScan.setBounds(277, 135, 133, 54);
+		pnlVoyage.add(btnVoyageScan);
 		
 		JPanel pnlPay = new JPanel();
 		pnlPay.setBackground(new Color(192, 192, 192));
@@ -624,12 +650,15 @@ public class Sales {
 		scrollPane.setViewportView(tblPurchase);
 		tblPurchase.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
 			},
 			new String[] {
 				"ID", "ITEM", "QTY", "PRICE"
 			}
 		));
+		tblPurchase.getColumnModel().getColumn(0).setPreferredWidth(25);
+		tblPurchase.getColumnModel().getColumn(1).setPreferredWidth(150);
+		tblPurchase.getColumnModel().getColumn(2).setPreferredWidth(50);
+		tblPurchase.getColumnModel().getColumn(3).setPreferredWidth(50);
 		
 		JButton btnPurchse = new JButton("PURCHASE");
 		btnPurchse.setBounds(10, 409, 160, 30);
@@ -653,7 +682,7 @@ public class Sales {
 		txtaReceipt.setBounds(10, 11, 330, 387);
 		pnlPrint.add(txtaReceipt);
 		
-		JLabel lblTotal = new JLabel("TOTAL:");
+		lblTotal = new JLabel("TOTAL: $00.00");
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblTotal.setBounds(1252, 875, 312, 30);
 		Sales.getContentPane().add(lblTotal);
@@ -672,5 +701,252 @@ public class Sales {
 		textField.setBounds(1350, 916, 214, 29);
 		Sales.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		/**
+		 * Events.
+		 */
+		lblInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Inventory inventory = new Inventory();
+				inventory.Inventory.setVisible(true);
+				Sales.dispose();
+			}
+		});
+
+		lblAccount.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Account account = new Account();
+				account.Account.setVisible(true);
+				Sales.dispose();
+			}
+		});
+
+		
+		//dune
+		btnDunePlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblDuneQuantity.getText());
+                quantity++;
+                lblDuneQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnDuneMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblDuneQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblDuneQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnDuneScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(101, lblDune.getText(), Integer.parseInt(lblDuneQuantity.getText()), Double.parseDouble(lblDunePrice.getText().replace("$", "")));
+			}
+		});
+		
+		//crime and punishment
+		btnCrimeMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblCrimeQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblCrimeQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnCrimePlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblCrimeQuantity.getText());
+                quantity++;
+                lblCrimeQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnCrimeScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(202, lblCrime.getText(), Integer.parseInt(lblCrimeQuantity.getText()), Double.parseDouble(lblCrimePrice.getText().replace("$", "")));
+			}
+		});
+
+		//the songs of achilles
+		btnAchillesMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblAchillesQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblAchillesQuantity.setText(String.valueOf(quantity));
+			}
+		});
+		
+		btnAchillesPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblAchillesQuantity.getText());
+                quantity++;
+                lblAchillesQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnAchillesScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(303, lblAchilles.getText(), Integer.parseInt(lblAchillesQuantity.getText()), Double.parseDouble(lblAchillesPrice.getText().replace("$", "")));
+			}
+		});
+
+		//meditations
+		btnMeditationsMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblMeditationsQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblMeditationsQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnMeditationsPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblMeditationsQuantity.getText());
+                quantity++;
+                lblMeditationsQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnMeditationsScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(404, lblMeditations.getText(), Integer.parseInt(lblMeditationsQuantity.getText()), Double.parseDouble(lblMeditationsPrice.getText().replace("$", "")));
+			}
+		});
+
+		//ego is the enemy
+		btnEgoMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblEgoQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblEgoQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnEgoPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblEgoQuantity.getText());
+                quantity++;
+                lblEgoQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnEgoScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(505, lblEgo.getText(), Integer.parseInt(lblEgoQuantity.getText()), Double.parseDouble(lblEgoPrice.getText().replace("$", "")));
+			}
+		});
+
+		//the mountain is you
+		btnMountainMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblMountainQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblMountainQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnMountainPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblMountainQuantity.getText());
+                quantity++;
+                lblMountainQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnMountainScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(606, lblMountain.getText(), Integer.parseInt(lblMountainQuantity.getText()), Double.parseDouble(lblMountainPrice.getText().replace("$", "")));
+			}
+		});
+
+		//the diary of a young girl
+		btnDiaryMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblDiaryQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblDiaryQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnDiaryPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblDiaryQuantity.getText());
+                quantity++;
+                lblDiaryQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnDiaryScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(707, lblDiary.getText(), Integer.parseInt(lblDiaryQuantity.getText()), Double.parseDouble(lblDiaryPrice.getText().replace("$", "")));
+			}
+		});
+	
+		//noli me tangere
+		btnNoliMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblNoliQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblNoliQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnNoliPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblNoliQuantity.getText());
+                quantity++;
+                lblNoliQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnNoliScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(808, lblNoli.getText(), Integer.parseInt(lblNoliQuantity.getText()), Double.parseDouble(lblNoliPrice.getText().replace("$", "")));
+			}
+		});
+
+		//the first voyage around the world
+		btnVoyageMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblVoyageQuantity.getText());
+                if (quantity > 1) {
+                    quantity--;
+                }
+                lblVoyageQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnVoyagePlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                int quantity = Integer.parseInt(lblVoyageQuantity.getText());
+                quantity++;
+                lblVoyageQuantity.setText(String.valueOf(quantity));
+			}
+		});
+
+		btnVoyageScan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addTable(909, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
+			}
+		});
 	}
 }
