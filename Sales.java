@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -990,6 +991,18 @@ public class Sales {
 							 lblBalance.setText("BALANCE: $" + df.format(balance));
 							 JOptionPane.showMessageDialog(Sales, "Purchase successful", "Success", JOptionPane.INFORMATION_MESSAGE);
 							 purchaseMade = true;
+							 DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+                             for (int i = 0; i < tblPurchase.getRowCount(); i++) {
+                                 int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
+                                 double price = Double.parseDouble(tableModel.getValueAt(i, 3).toString());
+                                 Dashboard.SharedData.addBook(quantity, price);
+                             }
+                             SwingUtilities.invokeLater(new Runnable() {
+                                 public void run() {
+                                     Dashboard dashboard = new Dashboard();
+                                     dashboard.updateDashboard();
+                                 }
+                             });
 							 lblDuneQuantity.setText("1");
 							 lblCrimeQuantity.setText("1");
 							 lblAchillesQuantity.setText("1");
@@ -1039,20 +1052,19 @@ public class Sales {
 			 }
 		 });
 		 
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-			        if (tableModel != null && tableModel.getRowCount() > 0) {
-			            tableModel.setRowCount(0);
-			            lblTotal.setText("TOTAL: $00.00");
-			            txtCash.setText(null);
-			            lblBalance.setText(null);
-			            txtaReceipt.setText(null);
-			        } 
-			        else {
-			            JOptionPane.showMessageDialog(Sales, "There is no ongoing transaction to reset.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
-			        }
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tableModel != null && tableModel.getRowCount() > 0) {
+					tableModel.setRowCount(0);
+					lblTotal.setText("TOTAL: $00.00");
+					txtCash.setText(null);
+					lblBalance.setText(null);
+					txtaReceipt.setText(null);
+				} 
+				else {
+					JOptionPane.showMessageDialog(Sales, "There is no ongoing transaction to reset.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
 				}
-			});
-			
+			}
+		});
 	}
 }
