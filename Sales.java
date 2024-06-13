@@ -27,8 +27,9 @@ import javax.swing.table.DefaultTableModel;
 public class Sales {
 
 	JFrame Sales;
+	private DefaultTableModel tableModel;
 	private JTable tblPurchase;
-	private JTextField textField;
+	private JTextField txtCash;
 	private JLabel lblTotal;
 	private boolean purchaseMade = false;
 
@@ -59,7 +60,7 @@ public class Sales {
 	 * Methods.
 	 */
 	public void addTable(int id, String name, int quantity, Double price) {
-        DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+        tableModel = (DefaultTableModel) tblPurchase.getModel();
         boolean itemExists = false;
 
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -84,7 +85,7 @@ public class Sales {
 	}
 	
     public void updateTotal() {
-        DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+        tableModel = (DefaultTableModel) tblPurchase.getModel();
         double total = 0;
 
         for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -132,14 +133,6 @@ public class Sales {
 		menu.add(lblPointOfSale);
 		
 		JLabel lblDashboard = new JLabel("Dashboard");
-		lblDashboard.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Dashboard dashboard = new Dashboard();
-				dashboard.Dashboard.setVisible(true);
-				Sales.dispose();
-			}
-		});
 		lblDashboard.setOpaque(true);
 		lblDashboard.setBackground(new Color(192, 192, 192));
 		lblDashboard.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -188,7 +181,7 @@ public class Sales {
 		
 		JLabel lblDune = new JLabel("Dune \t");
 		lblDune.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblDune.setBounds(143, 11, 62, 29);
+		lblDune.setBounds(143, 11, 267, 29);
 		pnlDune.add(lblDune);
 		
 		JLabel lblDuneAuthor = new JLabel("by Frank Herbet");
@@ -670,20 +663,11 @@ public class Sales {
 		JButton btnDelete = new JButton("DELETE");
 		btnDelete.setBounds(180, 409, 160, 30);
 		pnlPay.add(btnDelete);
-		
-		JPanel pnlPrint = new JPanel();
-		pnlPrint.setBackground(new Color(192, 192, 192));
-		pnlPrint.setBounds(1574, 551, 350, 450);
-		Sales.getContentPane().add(pnlPrint);
-		pnlPrint.setLayout(null);
-		
-		JButton btnPrint = new JButton("PRINT");
-		btnPrint.setBounds(10, 409, 330, 30);
-		pnlPrint.add(btnPrint);
-		
-		JTextArea txtaReceipt = new JTextArea();
-		txtaReceipt.setBounds(10, 11, 330, 387);
-		pnlPrint.add(txtaReceipt);
+
+		JButton btnNewButton = new JButton("N E W");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 48));
+		btnNewButton.setBounds(285, 875, 860, 112);
+		Sales.getContentPane().add(btnNewButton);
 		
 		lblTotal = new JLabel("TOTAL: $00.00");
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -692,7 +676,7 @@ public class Sales {
 		
 		JLabel lblCash = new JLabel("CASH:");
 		lblCash.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblCash.setBounds(1266, 916, 298, 29);
+		lblCash.setBounds(1266, 916, 86, 29);
 		Sales.getContentPane().add(lblCash);
 		
 		JLabel lblBalance = new JLabel("BALANCE:");
@@ -700,14 +684,38 @@ public class Sales {
 		lblBalance.setBounds(1219, 957, 345, 30);
 		Sales.getContentPane().add(lblBalance);
 		
-		textField = new JTextField();
-		textField.setBounds(1350, 916, 214, 29);
-		Sales.getContentPane().add(textField);
-		textField.setColumns(10);
+		txtCash = new JTextField();
+		txtCash.setBounds(1350, 916, 214, 29);
+		Sales.getContentPane().add(txtCash);
+		txtCash.setColumns(10);
+		
+		JPanel pnlPrint = new JPanel();
+		pnlPrint.setBackground(new Color(192, 192, 192));
+		pnlPrint.setBounds(1574, 551, 350, 450);
+		Sales.getContentPane().add(pnlPrint);
+		pnlPrint.setLayout(null);
+		
+		JTextArea txtaReceipt = new JTextArea();
+		txtaReceipt.setBounds(10, 11, 330, 387);
+		pnlPrint.add(txtaReceipt);
+		
+		JButton btnPrint = new JButton("PRINT");
+		btnPrint.setBounds(10, 409, 330, 30);
+		pnlPrint.add(btnPrint);
 		
 		/**
 		 * Events.
 		 */
+		
+		lblDashboard.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Dashboard dashboard = new Dashboard();
+				dashboard.Dashboard.setVisible(true);
+				Sales.dispose();
+			}
+		});
+		
 		lblInventory.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -968,13 +976,12 @@ public class Sales {
 		 //purchase button
 		 btnPurchse.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-				 if (textField.getText().trim().isEmpty()) {
+				 if (txtCash.getText().trim().isEmpty()) {
 		                JOptionPane.showMessageDialog(Sales, "Please enter cash amount", "Error", JOptionPane.ERROR_MESSAGE);
 				 } else {
 					 try {
-						 double cash = Double.parseDouble(textField.getText().trim());
+						 double cash = Double.parseDouble(txtCash.getText().trim());
 						 double total = Double.parseDouble(lblTotal.getText().replace("TOTAL: $", ""));
-
 						 if (cash < total) {
 		                        JOptionPane.showMessageDialog(Sales, "Insufficient cash", "Error", JOptionPane.ERROR_MESSAGE);
 						 } else {
@@ -983,6 +990,15 @@ public class Sales {
 							 lblBalance.setText("BALANCE: $" + df.format(balance));
 							 JOptionPane.showMessageDialog(Sales, "Purchase successful", "Success", JOptionPane.INFORMATION_MESSAGE);
 							 purchaseMade = true;
+							 lblDuneQuantity.setText("1");
+							 lblCrimeQuantity.setText("1");
+							 lblAchillesQuantity.setText("1");
+							 lblMeditationsQuantity.setText("1");
+							 lblEgoQuantity.setText("1");
+							 lblMountainQuantity.setText("1");
+							 lblDiaryQuantity.setText("1");
+							 lblNoliQuantity.setText("1");
+							 lblVoyageQuantity.setText("1");
 						 }
 					 } catch (NumberFormatException ex) {
 		                    JOptionPane.showMessageDialog(Sales, "Invalid cash amount", "Error", JOptionPane.ERROR_MESSAGE);
@@ -994,7 +1010,7 @@ public class Sales {
 		 //print button
 		 btnPrint.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-			     DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
+			     tableModel = (DefaultTableModel) tblPurchase.getModel();
 				 if (!purchaseMade) {
 					 JOptionPane.showMessageDialog(Sales, "No purchase has been made", "Error", JOptionPane.ERROR_MESSAGE);
 				 }
@@ -1012,16 +1028,31 @@ public class Sales {
 							 String price = tableModel.getValueAt(i, 3).toString();
 				             txtaReceipt.setText(txtaReceipt.getText() + "  " + name + "\t" + quantity + "\t" + price + "\n");
 						 }
-						 
-						 txtaReceipt.setText(txtaReceipt.getText() + "  --------------------------------------------------------------------------------  \n");
-						 txtaReceipt.setText(txtaReceipt.getText() + "SUB " + lblTotal.getText() + "\n");
-						 txtaReceipt.setText(txtaReceipt.getText() + "CASH: " +textField.getText() + "\n");
-						 txtaReceipt.setText(txtaReceipt.getText() + lblBalance.getText() + "\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "  --------------------------------------------------------------------------------  \n\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "  SUB " + lblTotal.getText() + "\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "  CASH: " +txtCash.getText() + "\n");
+						 txtaReceipt.setText(txtaReceipt.getText() + "  " + lblBalance.getText() + "\n");
 					 } catch (Exception ex) {
 						 ex.printStackTrace();
 					 }
 				 }
 			 }
 		 });
+		 
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+			        if (tableModel != null && tableModel.getRowCount() > 0) {
+			            tableModel.setRowCount(0);
+			            lblTotal.setText("TOTAL: $00.00");
+			            txtCash.setText(null);
+			            lblBalance.setText(null);
+			            txtaReceipt.setText(null);
+			        } 
+			        else {
+			            JOptionPane.showMessageDialog(Sales, "There is no ongoing transaction to reset.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
+			        }
+				}
+			});
+			
 	}
 }
