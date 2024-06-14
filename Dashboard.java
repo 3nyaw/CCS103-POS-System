@@ -6,12 +6,18 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -203,7 +209,7 @@ public class Dashboard {
         });
         
         
-        btnUpdate.setBounds(953, 439, 246, 44);
+        btnUpdate.setBounds(688, 439, 246, 44);
         Dashboard.getContentPane().add(btnUpdate);
         
         JPanel barChartPanel = new JPanel();
@@ -264,6 +270,30 @@ public class Dashboard {
         lblReferences.setFont(new Font("Tahoma", Font.PLAIN, 24));
         lblReferences.setBounds(1386, 545, 480, 35);
         Dashboard.getContentPane().add(lblReferences);
+        
+        JButton btnRegister = new JButton("Register");
+        btnRegister.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		 registerTotalRevenue();
+        	JOptionPane.showMessageDialog(null, "Purchased Registered!");
+        	}
+        });
+        
+        btnRegister.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnRegister.setBounds(1620, 931, 246, 44);
+        Dashboard.getContentPane().add(btnRegister);
+    }
+    
+    public void registerTotalRevenue() {
+        double totalRevenue = SharedData.getTotalRevenue();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("sales.txt", true))) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            writer.write("Date: "+ dtf.format(now) + "| Total Revenue: $" + totalRevenue);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public void updateDashboard() {
