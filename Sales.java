@@ -993,9 +993,10 @@ public class Sales {
 							 purchaseMade = true;
 							 DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
                              for (int i = 0; i < tblPurchase.getRowCount(); i++) {
+                                 String bookName = tableModel.getValueAt(i, 0).toString(); 
                                  int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
                                  double price = Double.parseDouble(tableModel.getValueAt(i, 3).toString());
-                                 Dashboard.SharedData.addBook(quantity, price);
+                                 Dashboard.SharedData.addBook(quantity, price, bookName);
                              }
                              SwingUtilities.invokeLater(new Runnable() {
                                  public void run() {
