@@ -122,7 +122,7 @@ public class Account {
         JLabel lblAccount = new JLabel("   Account");
         lblAccount.setOpaque(true);
         lblAccount.setBackground(new Color(128, 128, 128));
-        lblAccount.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblAccount.setFont(new Font("Tahoma", Font.BOLD, 24));
         lblAccount.setBounds(20, 345, 245, 40);
         panel.add(lblAccount);
         
@@ -131,10 +131,10 @@ public class Account {
         Account.getContentPane().add(contentPane);
         contentPane.setLayout(null);
         
-        JLabel Title = new JLabel("User Profile");
-        Title.setFont(new Font("Tahoma", Font.BOLD, 34));
-        Title.setBounds(10, 11, 211, 42);
-        contentPane.add(Title);
+        JLabel ttlUserPorfile = new JLabel("User Profile");
+        ttlUserPorfile.setFont(new Font("Tahoma", Font.BOLD, 34));
+        ttlUserPorfile.setBounds(10, 11, 211, 42);
+        contentPane.add(ttlUserPorfile);
         
         JLabel loginHistoryLabel = new JLabel("Login History:");
         loginHistoryLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -146,60 +146,60 @@ public class Account {
         contentPane.add(pInfoPanel);
         pInfoPanel.setLayout(null);
         
-        JLabel personalInfo = new JLabel("Personal Information");
-        personalInfo.setBounds(17, 5, 290, 33);
-        personalInfo.setHorizontalAlignment(SwingConstants.LEFT);
-        personalInfo.setFont(new Font("Tahoma", Font.BOLD, 27));
-        pInfoPanel.add(personalInfo);
+        JLabel lblPersonalInfo = new JLabel("Personal Information");
+        lblPersonalInfo.setBounds(17, 5, 290, 33);
+        lblPersonalInfo.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPersonalInfo.setFont(new Font("Tahoma", Font.BOLD, 27));
+        pInfoPanel.add(lblPersonalInfo);
         
-        JLabel name = new JLabel("Name: ");
-        name.setBounds(17, 283, 65, 22);
-        name.setHorizontalAlignment(SwingConstants.LEFT);
-        name.setFont(new Font("Tahoma", Font.BOLD, 18));
-        pInfoPanel.add(name);
+        JLabel lblName = new JLabel("Name: ");
+        lblName.setBounds(17, 283, 65, 22);
+        lblName.setHorizontalAlignment(SwingConstants.LEFT);
+        lblName.setFont(new Font("Tahoma", Font.BOLD, 18));
+        pInfoPanel.add(lblName);
         
-        JLabel nameContent = new JLabel("Felipe Lakandule");
-        nameContent.setBounds(92, 283, 130, 22);
-        nameContent.setHorizontalAlignment(SwingConstants.LEFT);
-        nameContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        pInfoPanel.add(nameContent);
+        JLabel lblNameContent = new JLabel("Felipe Lakandule");
+        lblNameContent.setBounds(92, 283, 130, 22);
+        lblNameContent.setHorizontalAlignment(SwingConstants.LEFT);
+        lblNameContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        pInfoPanel.add(lblNameContent);
         
-        JLabel position = new JLabel("Position:");
-        position.setBounds(17, 316, 79, 22);
-        position.setHorizontalAlignment(SwingConstants.LEFT);
-        position.setFont(new Font("Tahoma", Font.BOLD, 18));
-        pInfoPanel.add(position);
+        JLabel lblPosition = new JLabel("Position:");
+        lblPosition.setBounds(17, 316, 79, 22);
+        lblPosition.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPosition.setFont(new Font("Tahoma", Font.BOLD, 18));
+        pInfoPanel.add(lblPosition);
         
-        JLabel positionContent = new JLabel("Staff");
-        positionContent.setHorizontalAlignment(SwingConstants.LEFT);
-        positionContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        positionContent.setBounds(102, 316, 130, 22);
-        pInfoPanel.add(positionContent);
+        JLabel lblPositionContent = new JLabel("Staff");
+        lblPositionContent.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPositionContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblPositionContent.setBounds(102, 316, 130, 22);
+        pInfoPanel.add(lblPositionContent);
         
-        JLabel Sex = new JLabel("Sex:");
-        Sex.setHorizontalAlignment(SwingConstants.LEFT);
-        Sex.setFont(new Font("Tahoma", Font.BOLD, 18));
-        Sex.setBounds(17, 349, 46, 22);
-        pInfoPanel.add(Sex);
+        JLabel lblSex = new JLabel("Sex:");
+        lblSex.setHorizontalAlignment(SwingConstants.LEFT);
+        lblSex.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblSex.setBounds(17, 349, 46, 22);
+        pInfoPanel.add(lblSex);
         
-        JLabel Age = new JLabel("Age:");
-        Age.setHorizontalAlignment(SwingConstants.LEFT);
-        Age.setFont(new Font("Tahoma", Font.BOLD, 18));
-        Age.setBounds(17, 382, 79, 22);
-        pInfoPanel.add(Age);
+        JLabel lblAge = new JLabel("Age:");
+        lblAge.setHorizontalAlignment(SwingConstants.LEFT);
+        lblAge.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblAge.setBounds(17, 382, 79, 22);
+        pInfoPanel.add(lblAge);
         
         JLabel profileImage = new JLabel("");
-        ImageIcon icon = new ImageIcon(Account.class.getResource("/Images/den.png"));
+        ImageIcon icon = new ImageIcon("C:\\Users\\Karo\\eclipse-workspace\\POSSystem\\img\\den.png");
         Image image = icon.getImage().getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH);
         profileImage.setIcon(new ImageIcon(image));
         profileImage.setBounds(39, 49, 250, 223); 
         pInfoPanel.add(profileImage);
         
-        JLabel Birthday = new JLabel("Birthday:");
-        Birthday.setHorizontalAlignment(SwingConstants.LEFT);
-        Birthday.setFont(new Font("Tahoma", Font.BOLD, 18));
-        Birthday.setBounds(17, 412, 99, 22);
-        pInfoPanel.add(Birthday);
+        JLabel lblBirthday = new JLabel("Birthday:");
+        lblBirthday.setHorizontalAlignment(SwingConstants.LEFT);
+        lblBirthday.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblBirthday.setBounds(17, 412, 99, 22);
+        pInfoPanel.add(lblBirthday);
         
         JLabel Contact = new JLabel("Contact:");
         Contact.setHorizontalAlignment(SwingConstants.LEFT);
@@ -234,6 +234,23 @@ public class Account {
         loginHistoryArea.setEditable(false);
         loginHistoryArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         loginHistoryArea.setText(readLoginHistory());
+        
+        JLabel salesHistoryLabel = new JLabel("Sales History:");
+        salesHistoryLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        salesHistoryLabel.setBounds(507, 402, 150, 42);
+        contentPane.add(salesHistoryLabel);
+        
+
+        
+        JScrollPane scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(507, 467, 582, 199);
+        contentPane.add(scrollPane_1);
+        
+        JTextArea salesHistoryArea = new JTextArea();
+        scrollPane_1.setViewportView(salesHistoryArea);
+        salesHistoryArea.setEditable(false);
+        salesHistoryArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        salesHistoryArea.setText(readSalesHistory());
 
         btnLogout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -262,4 +279,18 @@ public class Account {
         }
         return content.toString();
     }
+
+private String readSalesHistory() {
+    StringBuilder content = new StringBuilder();
+    try (BufferedReader reader = new BufferedReader(new FileReader("sales.txt"))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            content.append(line).append("\n");
+        }
+    } catch (IOException e) {
+        e.printStackTrace();
+        return "";
+    }
+    return content.toString();
+}
 }
