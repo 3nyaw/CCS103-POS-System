@@ -25,8 +25,8 @@ public class Inventory {
     private JTable tblList;
     private DefaultTableModel tableModel;
     private JTextField txtSearchBar;
-    private JTextField txtCategory, txtProduct;
     private JButton btnRestock;
+    private JButton btnEditPrice;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -145,22 +145,24 @@ public class Inventory {
         pnlTop.add(lblSearch);
 
         // Table
-        String[] columnNames = {"Category", "Product", "Price"};
+        String[] columnNames = {"Category", "Product", "Price ($)"};
+
+        // Data for the JTable
         Object[][] initialData = {
-                {"NOVEL", "Dune", "$5.99"},
-                {"NOVEL", "Crime and Punishment", "$13.99"},
-                {"NOVEL", "The Song of Achilles", "$12.68"},
-                {"SELF-HELP/PHILOSOPHY", "Meditations", "$9.99"},
-                {"SELF-HELP/PHILOSOPHY", "Ego is the Enemy", "$14.39"},
-                {"SELF-HELP/PHILOSOPHY", "The Mountain is You", "$17.99"},
-                {"HISTORY", "The Diary of a Girl", "$7.19"},
-                {"HISTORY", "Noli me Tangere", "$15.49"},
-                {"HISTORY", "The First Voyage", "$47.26"}
+                {"NOVEL", "Dune", 5.99},
+                {"NOVEL", "Crime and Punishment", 13.99},
+                {"NOVEL", "The Song of Achilles", 12.68},
+                {"SELF-HELP/PHILOSOPHY", "Meditations", 9.99},
+                {"SELF-HELP/PHILOSOPHY", "Ego is the Enemy", 14.39},
+                {"SELF-HELP/PHILOSOPHY", "The Mountain is You", 17.99},
+                {"HISTORY", "The Diary of a Girl", 7.19},
+                {"HISTORY", "Noli me Tangere", 15.49},
+                {"HISTORY", "The First Voyage", 47.26}
         };
 
         tableModel = new DefaultTableModel(initialData, columnNames) {
             public boolean isCellEditable(int row, int column) {
-                return column == 2;
+                return column == 2; // Make the Price column editable
             }
 
             public Class<?> getColumnClass(int columnIndex) {
@@ -175,53 +177,53 @@ public class Inventory {
         JScrollPane scrollPane = new JScrollPane(tblList);
         scrollPane.setBounds(0, 166, 1300, 696);
         contentPanel.add(scrollPane);
-        
-        JLabel lblStock = new JLabel("Stock");
+
+        JLabel lblStock = new JLabel("Stocks");
         lblStock.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblStock.setBounds(1449, 173, 49, 14);
         contentPanel.add(lblStock);
-        
-        JLabel lblNovel1 = new JLabel("0");
+
+        JLabel lblNovel1 = new JLabel("72");
         lblNovel1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblNovel1.setBounds(1310, 191, 49, 25);
         contentPanel.add(lblNovel1);
-        
-        JLabel lblNovel2 = new JLabel("0");
+
+        JLabel lblNovel2 = new JLabel("41");
         lblNovel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblNovel2.setBounds(1310, 224, 49, 25);
         contentPanel.add(lblNovel2);
-        
-        JLabel lblNovel3 = new JLabel("0");
+
+        JLabel lblNovel3 = new JLabel("47");
         lblNovel3.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblNovel3.setBounds(1310, 252, 49, 25);
         contentPanel.add(lblNovel3);
-        
-        JLabel lblPhilo1 = new JLabel("0");
+
+        JLabel lblPhilo1 = new JLabel("52");
         lblPhilo1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPhilo1.setBounds(1310, 282, 49, 25);
         contentPanel.add(lblPhilo1);
-        
-        JLabel lblPhilo2 = new JLabel("0");
+
+        JLabel lblPhilo2 = new JLabel("31");
         lblPhilo2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPhilo2.setBounds(1310, 313, 49, 25);
         contentPanel.add(lblPhilo2);
-        
-        JLabel lblPhilo3 = new JLabel("0");
+
+        JLabel lblPhilo3 = new JLabel("41");
         lblPhilo3.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblPhilo3.setBounds(1310, 344, 49, 25);
         contentPanel.add(lblPhilo3);
-        
-        JLabel lblHis1 = new JLabel("0");
+
+        JLabel lblHis1 = new JLabel("39");
         lblHis1.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblHis1.setBounds(1310, 374, 49, 25);
         contentPanel.add(lblHis1);
-        
-        JLabel lblHis2 = new JLabel("0");
+
+        JLabel lblHis2 = new JLabel("30");
         lblHis2.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblHis2.setBounds(1310, 403, 49, 25);
         contentPanel.add(lblHis2);
-        
-        JLabel lblHis3 = new JLabel("0");
+
+        JLabel lblHis3 = new JLabel("67");
         lblHis3.setFont(new Font("Tahoma", Font.PLAIN, 16));
         lblHis3.setBounds(1310, 433, 49, 25);
         contentPanel.add(lblHis3);
@@ -231,51 +233,11 @@ public class Inventory {
         Inventory.getContentPane().add(pnlBottom);
         pnlBottom.setLayout(null);
 
-        txtCategory = new JTextField();
-        txtCategory.setBounds(101, 10, 150, 20);
-        pnlBottom.add(txtCategory);
-
-        txtProduct = new JTextField();
-        txtProduct.setBounds(400, 10, 150, 20);
-        pnlBottom.add(txtProduct);
-
-        JButton btnAddItem = new JButton("Add Item");
-        btnAddItem.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnAddItem.setBounds(600, 10, 150, 30);
-        pnlBottom.add(btnAddItem);
-
-        JButton btnRemoveProduct = new JButton("Remove Product");
-        btnRemoveProduct.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnRemoveProduct.setBounds(800, 10, 150, 30);
-        pnlBottom.add(btnRemoveProduct);
-
         btnRestock = new JButton("Request Re-stock");
         btnRestock.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnRestock.setBounds(1000, 10, 186, 30);
+        btnRestock.setBounds(21, 11, 246, 62);
         btnRestock.setEnabled(false); // Initially disable the button
         pnlBottom.add(btnRestock);
-
-        JLabel lblProduct = new JLabel("Product:");
-        lblProduct.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblProduct.setBounds(324, 11, 114, 14);
-        pnlBottom.add(lblProduct);
-
-        JLabel lblCategory = new JLabel("Category:");
-        lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblCategory.setBounds(23, 10, 78, 27);
-        pnlBottom.add(lblCategory);
-
-        btnAddItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        btnRemoveProduct.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         btnRestock.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -287,13 +249,40 @@ public class Inventory {
             }
         });
 
+        btnEditPrice = new JButton("Edit Price");
+        btnEditPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnEditPrice.setBounds(290, 11, 150, 62);
+        btnEditPrice.setEnabled(false); // Initially disable the button
+        pnlBottom.add(btnEditPrice);
+
+        btnEditPrice.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblList.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Prompt the user for a new price
+                    String newPriceStr = JOptionPane.showInputDialog(Inventory, "Enter the new price:");
+                    if (newPriceStr != null && !newPriceStr.isEmpty()) {
+                        try {
+                            double newPrice = Double.parseDouble(newPriceStr);
+                            // Update the price in the table model
+                            tableModel.setValueAt(newPrice, selectedRow, 2);
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(Inventory, "Invalid price format! Please enter a valid number.");
+                        }
+                    }
+                }
+            }
+        });
+
         tblList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = tblList.getSelectedRow();
                     btnRestock.setEnabled(selectedRow != -1);
+                    btnEditPrice.setEnabled(selectedRow != -1);
                 }
             }
         });
     }
 }
+
