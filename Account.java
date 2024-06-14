@@ -1,6 +1,7 @@
 package Frames;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -9,8 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -127,7 +130,7 @@ public class Account {
         panel.add(lblAccount);
         
         JPanel contentPane = new JPanel();
-        contentPane.setBounds(311, 0, 1293, 859);
+        contentPane.setBounds(274, 0, 1293, 859);
         Account.getContentPane().add(contentPane);
         contentPane.setLayout(null);
         
@@ -142,86 +145,98 @@ public class Account {
         contentPane.add(loginHistoryLabel);
         
         JPanel pInfoPanel = new JPanel();
-        pInfoPanel.setBounds(10, 93, 360, 515);
+        pInfoPanel.setBounds(10, 93, 451, 616);
         contentPane.add(pInfoPanel);
         pInfoPanel.setLayout(null);
         
         JLabel lblPersonalInfo = new JLabel("Personal Information");
-        lblPersonalInfo.setBounds(17, 5, 290, 33);
-        lblPersonalInfo.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPersonalInfo.setBounds(94, 0, 290, 33);
+        lblPersonalInfo.setHorizontalAlignment(SwingConstants.CENTER);
         lblPersonalInfo.setFont(new Font("Tahoma", Font.BOLD, 27));
         pInfoPanel.add(lblPersonalInfo);
         
         JLabel lblName = new JLabel("Name: ");
-        lblName.setBounds(17, 283, 65, 22);
+        lblName.setBounds(17, 331, 132, 33);
         lblName.setHorizontalAlignment(SwingConstants.LEFT);
-        lblName.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblName.setFont(new Font("Tahoma", Font.BOLD, 30));
         pInfoPanel.add(lblName);
         
-        JLabel lblNameContent = new JLabel("Felipe Lakandule");
-        lblNameContent.setBounds(92, 283, 130, 22);
+        JLabel lblNameContent = new JLabel("Den Lawrence Uniforme");
+        lblNameContent.setBounds(123, 320, 365, 55);
         lblNameContent.setHorizontalAlignment(SwingConstants.LEFT);
-        lblNameContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblNameContent.setFont(new Font("Tahoma", Font.PLAIN, 30));
         pInfoPanel.add(lblNameContent);
         
         JLabel lblPosition = new JLabel("Position:");
-        lblPosition.setBounds(17, 316, 79, 22);
+        lblPosition.setBounds(17, 372, 169, 33);
         lblPosition.setHorizontalAlignment(SwingConstants.LEFT);
-        lblPosition.setFont(new Font("Tahoma", Font.BOLD, 18));
+        lblPosition.setFont(new Font("Tahoma", Font.BOLD, 30));
         pInfoPanel.add(lblPosition);
         
         JLabel lblPositionContent = new JLabel("Staff");
         lblPositionContent.setHorizontalAlignment(SwingConstants.LEFT);
-        lblPositionContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        lblPositionContent.setBounds(102, 316, 130, 22);
+        lblPositionContent.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblPositionContent.setBounds(158, 365, 304, 46);
         pInfoPanel.add(lblPositionContent);
         
         JLabel lblSex = new JLabel("Sex:");
         lblSex.setHorizontalAlignment(SwingConstants.LEFT);
-        lblSex.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblSex.setBounds(17, 349, 46, 22);
+        lblSex.setFont(new Font("Tahoma", Font.BOLD, 30));
+        lblSex.setBounds(17, 416, 79, 33);
         pInfoPanel.add(lblSex);
         
         JLabel lblAge = new JLabel("Age:");
         lblAge.setHorizontalAlignment(SwingConstants.LEFT);
-        lblAge.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblAge.setBounds(17, 382, 79, 22);
+        lblAge.setFont(new Font("Tahoma", Font.BOLD, 30));
+        lblAge.setBounds(17, 460, 79, 40);
         pInfoPanel.add(lblAge);
         
         JLabel profileImage = new JLabel("");
         ImageIcon icon = new ImageIcon("C:\\Users\\Karo\\eclipse-workspace\\POSSystem\\img\\den.png");
-        Image image = icon.getImage().getScaledInstance(250, 250, java.awt.Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(350, 350, java.awt.Image.SCALE_SMOOTH);
         profileImage.setIcon(new ImageIcon(image));
-        profileImage.setBounds(39, 49, 250, 223); 
+        profileImage.setBounds(66, 45, 340, 275); 
         pInfoPanel.add(profileImage);
         
         JLabel lblBirthday = new JLabel("Birthday:");
         lblBirthday.setHorizontalAlignment(SwingConstants.LEFT);
-        lblBirthday.setFont(new Font("Tahoma", Font.BOLD, 18));
-        lblBirthday.setBounds(17, 412, 99, 22);
+        lblBirthday.setFont(new Font("Tahoma", Font.BOLD, 30));
+        lblBirthday.setBounds(17, 511, 142, 30);
         pInfoPanel.add(lblBirthday);
         
-        JLabel Contact = new JLabel("Contact:");
-        Contact.setHorizontalAlignment(SwingConstants.LEFT);
-        Contact.setFont(new Font("Tahoma", Font.BOLD, 18));
-        Contact.setBounds(17, 445, 99, 22);
-        pInfoPanel.add(Contact);
+        JLabel lblContact = new JLabel("Contact:");
+        lblContact.setHorizontalAlignment(SwingConstants.LEFT);
+        lblContact.setFont(new Font("Tahoma", Font.BOLD, 30));
+        lblContact.setBounds(17, 556, 142, 34);
+        pInfoPanel.add(lblContact);
         
-        JLabel sexContent = new JLabel("Yes");
-        sexContent.setHorizontalAlignment(SwingConstants.LEFT);
-        sexContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        sexContent.setBounds(63, 349, 130, 22);
-        pInfoPanel.add(sexContent);
+        JLabel lblSexContent = new JLabel("Male");
+        lblSexContent.setHorizontalAlignment(SwingConstants.LEFT);
+        lblSexContent.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblSexContent.setBounds(94, 405, 250, 55);
+        pInfoPanel.add(lblSexContent);
         
-        JLabel ageContent = new JLabel("35");
-        ageContent.setHorizontalAlignment(SwingConstants.LEFT);
-        ageContent.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        ageContent.setBounds(63, 382, 130, 22);
-        pInfoPanel.add(ageContent);
+        JLabel lblAgeContent = new JLabel("18");
+        lblAgeContent.setHorizontalAlignment(SwingConstants.LEFT);
+        lblAgeContent.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblAgeContent.setBounds(94, 464, 169, 33);
+        pInfoPanel.add(lblAgeContent);
+        
+        JLabel lblBirthdayContent = new JLabel("September 7, 2003");
+        lblBirthdayContent.setHorizontalAlignment(SwingConstants.LEFT);
+        lblBirthdayContent.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblBirthdayContent.setBounds(169, 504, 304, 37);
+        pInfoPanel.add(lblBirthdayContent);
+        
+        JLabel lblBirthdayContent_1 = new JLabel("+63 932 475 8972");
+        lblBirthdayContent_1.setHorizontalAlignment(SwingConstants.LEFT);
+        lblBirthdayContent_1.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblBirthdayContent_1.setBounds(158, 550, 340, 46);
+        pInfoPanel.add(lblBirthdayContent_1);
 
         
         JButton btnLogout = new JButton("Logout");
-        btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnLogout.setFont(new Font("Tahoma", Font.BOLD, 18));
         btnLogout.setBounds(1102, 795, 120, 30);
         contentPane.add(btnLogout);
         
@@ -251,6 +266,32 @@ public class Account {
         salesHistoryArea.setEditable(false);
         salesHistoryArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         salesHistoryArea.setText(readSalesHistory());
+        
+        JButton btnClearSalesHistory = new JButton("Clear Sales History");
+        btnClearSalesHistory.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnClearSalesHistory.setBounds(925, 677, 164, 30);
+        contentPane.add(btnClearSalesHistory);
+        btnClearSalesHistory.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clearFileContent("sales.txt");
+                salesHistoryArea.setText("");
+  
+            }
+        });
+        
+        JButton btnClearLoginHistory = new JButton("Clear Login History");
+        btnClearLoginHistory.setFont(new Font("Tahoma", Font.BOLD, 11));
+        btnClearLoginHistory.setBounds(925, 356, 164, 30);
+        contentPane.add(btnClearLoginHistory);
+        btnClearLoginHistory.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                clearFileContent("login_history.txt");
+                loginHistoryArea.setText("");
+            }
+        });
+        
+
+ 
 
         btnLogout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -292,5 +333,13 @@ private String readSalesHistory() {
         return "";
     }
     return content.toString();
+}
+
+private void clearFileContent(String fileName) {
+    try (PrintWriter writer = new PrintWriter(fileName)) {
+        writer.print("");
+    } catch (FileNotFoundException ex) {
+        ex.printStackTrace();
+    }
 }
 }
