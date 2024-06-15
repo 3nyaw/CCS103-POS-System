@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class Login {
 
@@ -60,17 +63,17 @@ public class Login {
      */
     private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 410, 275);
+		frame.setBounds(100, 100, 650, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Username");
-		lblUsername.setBounds(85, 75, 76, 17);
+		lblUsername.setBounds(30, 78, 76, 17);
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setBounds(85, 123, 76, 17);
+		lblPassword.setBounds(30, 126, 76, 17);
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		frame.getContentPane().add(lblPassword);
 		
@@ -81,7 +84,7 @@ public class Login {
 				usernameField.setText("");
 			}
 		});
-		usernameField.setBounds(85, 92, 230, 20);
+		usernameField.setBounds(30, 95, 230, 20);
 		usernameField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				passwordField.requestFocusInWindow();
@@ -101,17 +104,50 @@ public class Login {
 			}
 		});
 		passwordField.setEchoChar((char)0);
-		passwordField.setBounds(85, 141, 230, 20);
+		passwordField.setBounds(30, 144, 230, 20);
 		frame.getContentPane().add(passwordField);
 		
 		String user = "admin123";
 		String pass = "secret123";
 		
+		JLabel lblPasswordReset = new JLabel("Reset password");
+		lblPasswordReset.setBounds(183, 164, 77, 20);
+		lblPasswordReset.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(frame, "Your request has been sent.", "Page Turn | Reset password", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		lblPasswordReset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblPasswordReset.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		frame.getContentPane().add(lblPasswordReset);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(null);
+		panel.setBackground(new Color(0, 0, 0));
+		panel.setForeground(new Color(0, 0, 0));
+		panel.setBounds(309, 0, 325, 311);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblIcon = new JLabel("");
+		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIcon.setBounds(65, 55, 200, 200);
+		panel.add(lblIcon);
+		lblIcon.setIcon(new ImageIcon("C:\\Users\\Terrence John\\Downloads\\logo (200 x 200 px).png"));
+		
+		JPanel pnlBorder = new JPanel();
+		pnlBorder.setBorder(null);
+		pnlBorder.setBounds(0, 0, 309, 311);
+		frame.getContentPane().add(pnlBorder);
+		pnlBorder.setLayout(null);
+		
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(87, 207, 120, 37);
+		pnlBorder.add(btnLogin);
 		btnLogin.setForeground(SystemColor.textHighlightText);
 		btnLogin.setBackground(SystemColor.textHighlight);
-		btnLogin.setBounds(155, 190, 76, 23);
 		btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
@@ -123,7 +159,7 @@ public class Login {
                     dashboard.Dashboard.setVisible(true);
                     frame.setVisible(false);
                     JOptionPane.showMessageDialog(frame, "Login successfully!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE);
-                    logLoginAttempt(username, true); // Log only successful logins
+                    logLoginAttempt(username, true);
                 } else {
                     JOptionPane.showMessageDialog(frame, "Invalid input!", "Page Turn | Login", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -133,30 +169,12 @@ public class Login {
         });
 		btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLogin.setSelected(true);
-		frame.getContentPane().add(btnLogin);
 		
-		JLabel lblPasswordReset = new JLabel("Reset password");
-		lblPasswordReset.setBounds(238, 161, 77, 20);
-		lblPasswordReset.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(frame, "Your request has been sent.", "Page Turn | Reset password", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
-		lblPasswordReset.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblPasswordReset.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		frame.getContentPane().add(lblPasswordReset);
-		
-		JLabel lblLogin = new JLabel("Login");
-		lblLogin.setBounds(164, 11, 55, 25);
-		frame.getContentPane().add(lblLogin);
-		lblLogin.setForeground(SystemColor.inactiveCaptionText);
-		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 20));
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.activeCaptionBorder);
-		panel.setBounds(0, 0, 394, 50);
-		frame.getContentPane().add(panel);
+		JLabel lblLogin = new JLabel("LOGIN");
+		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogin.setBounds(0, 0, 309, 61);
+		pnlBorder.add(lblLogin);
 	}
 
     private void logLoginAttempt(String username, boolean success) {
