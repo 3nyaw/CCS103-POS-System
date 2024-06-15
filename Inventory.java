@@ -1,3 +1,4 @@
+
 package Frames;
 
 import java.awt.Color;
@@ -8,10 +9,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,11 +30,7 @@ import javax.swing.event.ListSelectionListener;
 public class Inventory {
 
     JFrame Inventory;
-    private JTable tblList;
     private DefaultTableModel tableModel;
-    private JTextField txtSearchBar;
-    private JButton btnRestock;
-    private JButton btnEditPrice;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -104,13 +108,13 @@ public class Inventory {
         lblSales.setBounds(20, 243, 245, 40);
         panel.add(lblSales);
 
-        JLabel lblInventory = new JLabel("   Inventory");
-        lblInventory.setForeground(new Color(0, 0, 0));
-        lblInventory.setOpaque(true);
-        lblInventory.setBackground(new Color(128, 128, 128));
-        lblInventory.setFont(new Font("Tahoma", Font.BOLD, 24));
-        lblInventory.setBounds(20, 294, 245, 40);
-        panel.add(lblInventory);
+        JLabel lblEmail = new JLabel("   Email");
+        lblEmail.setForeground(new Color(0, 0, 0));
+        lblEmail.setOpaque(true);
+        lblEmail.setBackground(new Color(128, 128, 128));
+        lblEmail.setFont(new Font("Tahoma", Font.BOLD, 24));
+        lblEmail.setBounds(20, 294, 245, 40);
+        panel.add(lblEmail);
 
         JLabel lblAccount = new JLabel("Account");
         lblAccount.addMouseListener(new MouseAdapter() {
@@ -126,163 +130,63 @@ public class Inventory {
         panel.add(lblAccount);
 
         JPanel contentPanel = new JPanel();
-        contentPanel.setBounds(277, 4, 1647, 700);
+        contentPanel.setBounds(277, 87, 1647, 700);
         Inventory.getContentPane().add(contentPanel);
         contentPanel.setLayout(null);
-
-        JPanel pnlTop = new JPanel();
-        pnlTop.setBounds(10, 125, 1660, 30);
-        contentPanel.add(pnlTop);
-        pnlTop.setLayout(null);
-
-        txtSearchBar = new JTextField();
-        txtSearchBar.setBounds(85, 11, 200, 20);
-        pnlTop.add(txtSearchBar);
-
-        JLabel lblSearch = new JLabel("Search:");
-        lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblSearch.setBounds(10, 12, 90, 14);
-        pnlTop.add(lblSearch);
-
-        // Table
-        String[] columnNames = {"Category", "Product", "Price ($)"};
-
-        // Data for the JTable
-        Object[][] initialData = {
-                {"NOVEL", "Dune", 5.99},
-                {"NOVEL", "Crime and Punishment", 13.99},
-                {"NOVEL", "The Song of Achilles", 12.68},
-                {"SELF-HELP/PHILOSOPHY", "Meditations", 9.99},
-                {"SELF-HELP/PHILOSOPHY", "Ego is the Enemy", 14.39},
-                {"SELF-HELP/PHILOSOPHY", "The Mountain is You", 17.99},
-                {"HISTORY", "The Diary of a Girl", 7.19},
-                {"HISTORY", "Noli me Tangere", 15.49},
-                {"HISTORY", "The First Voyage", 47.26}
-        };
-
-        tableModel = new DefaultTableModel(initialData, columnNames) {
-            public boolean isCellEditable(int row, int column) {
-                return column == 2; // Make the Price column editable
-            }
-
-            public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 2) return Double.class;
-                return super.getColumnClass(columnIndex);
-            }
-        };
-
-        tblList = new JTable(tableModel);
-        tblList.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        tblList.setRowHeight(30);
-        JScrollPane scrollPane = new JScrollPane(tblList);
-        scrollPane.setBounds(0, 166, 1300, 696);
-        contentPanel.add(scrollPane);
-
-        JLabel lblStock = new JLabel("Stocks");
-        lblStock.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblStock.setBounds(1449, 173, 49, 14);
-        contentPanel.add(lblStock);
-
-        JLabel lblNovel1 = new JLabel("72");
-        lblNovel1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNovel1.setBounds(1310, 191, 49, 25);
-        contentPanel.add(lblNovel1);
-
-        JLabel lblNovel2 = new JLabel("41");
-        lblNovel2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNovel2.setBounds(1310, 224, 49, 25);
-        contentPanel.add(lblNovel2);
-
-        JLabel lblNovel3 = new JLabel("47");
-        lblNovel3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNovel3.setBounds(1310, 252, 49, 25);
-        contentPanel.add(lblNovel3);
-
-        JLabel lblPhilo1 = new JLabel("52");
-        lblPhilo1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPhilo1.setBounds(1310, 282, 49, 25);
-        contentPanel.add(lblPhilo1);
-
-        JLabel lblPhilo2 = new JLabel("31");
-        lblPhilo2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPhilo2.setBounds(1310, 313, 49, 25);
-        contentPanel.add(lblPhilo2);
-
-        JLabel lblPhilo3 = new JLabel("41");
-        lblPhilo3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblPhilo3.setBounds(1310, 344, 49, 25);
-        contentPanel.add(lblPhilo3);
-
-        JLabel lblHis1 = new JLabel("39");
-        lblHis1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblHis1.setBounds(1310, 374, 49, 25);
-        contentPanel.add(lblHis1);
-
-        JLabel lblHis2 = new JLabel("30");
-        lblHis2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblHis2.setBounds(1310, 403, 49, 25);
-        contentPanel.add(lblHis2);
-
-        JLabel lblHis3 = new JLabel("67");
-        lblHis3.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblHis3.setBounds(1310, 433, 49, 25);
-        contentPanel.add(lblHis3);
-
-        JPanel pnlBottom = new JPanel();
-        pnlBottom.setBounds(280, 711, 1660, 100);
-        Inventory.getContentPane().add(pnlBottom);
-        pnlBottom.setLayout(null);
-
-        btnRestock = new JButton("Request Re-stock");
-        btnRestock.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnRestock.setBounds(21, 11, 246, 62);
-        btnRestock.setEnabled(false); // Initially disable the button
-        pnlBottom.add(btnRestock);
-
-        btnRestock.addActionListener(new ActionListener() {
+        
+        JLabel lblEmailTitle = new JLabel("Email");
+        lblEmailTitle.setFont(new Font("Tahoma", Font.BOLD, 40));
+        lblEmailTitle.setBounds(10, 11, 347, 72);
+        contentPanel.add(lblEmailTitle);
+        
+        JScrollPane scrollPane_1 = new JScrollPane();
+        scrollPane_1.setBounds(10, 94, 1627, 595);
+        contentPanel.add(scrollPane_1);
+        
+        JTextArea salesHistoryArea = new JTextArea();
+        scrollPane_1.setViewportView(salesHistoryArea);
+        salesHistoryArea.setEditable(false);
+        salesHistoryArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        salesHistoryArea.setText(readEmail());
+        
+        JButton btnClearEmail = new JButton("Clear Email");
+        btnClearEmail.setBounds(1659, 798, 255, 52);
+        Inventory.getContentPane().add(btnClearEmail);
+        btnClearEmail.setFont(new Font("Tahoma", Font.BOLD, 20));
+        btnClearEmail.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int selectedRow = tblList.getSelectedRow();
-                if (selectedRow != -1) {
-                    JOptionPane.showMessageDialog(Inventory, "Your request was sent to the supplier!\nExpect an e-mail for the next 24 hours");
-                    btnRestock.setEnabled(false); // Disable the button after it's clicked
+                int response = JOptionPane.showConfirmDialog(Inventory, "Are you sure?", "Clear Email History", JOptionPane.YES_NO_OPTION); {
+                    clearFileContent("email.txt");
+                    salesHistoryArea.setText("");
                 }
             }
         });
 
-        btnEditPrice = new JButton("Edit Price");
-        btnEditPrice.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        btnEditPrice.setBounds(290, 11, 150, 62);
-        btnEditPrice.setEnabled(false); // Initially disable the button
-        pnlBottom.add(btnEditPrice);
-
-        btnEditPrice.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = tblList.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Prompt the user for a new price
-                    String newPriceStr = JOptionPane.showInputDialog(Inventory, "Enter the new price:");
-                    if (newPriceStr != null && !newPriceStr.isEmpty()) {
-                        try {
-                            double newPrice = Double.parseDouble(newPriceStr);
-                            // Update the price in the table model
-                            tableModel.setValueAt(newPrice, selectedRow, 2);
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(Inventory, "Invalid price format! Please enter a valid number.");
-                        }
-                    }
-                }
-            }
-        });
-
-        tblList.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                if (!event.getValueIsAdjusting()) {
-                    int selectedRow = tblList.getSelectedRow();
-                    btnRestock.setEnabled(selectedRow != -1);
-                    btnEditPrice.setEnabled(selectedRow != -1);
-                }
-            }
-        });
+      
     }
-}
 
+    
+    private String readEmail() {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader("email.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+        return content.toString();
+    }
+
+private boolean clearFileContent(String fileName) {
+    try (PrintWriter writer = new PrintWriter(fileName)) {
+        writer.print("");
+        return true;
+    } catch (FileNotFoundException ex) {
+        ex.printStackTrace();
+        return false;
+    	}
+	}
+}
