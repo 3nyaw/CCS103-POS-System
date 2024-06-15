@@ -104,6 +104,19 @@ public class Sales {
 
         lblTotal.setText("TOTAL: $" + formattedTotal);
     }
+    
+	private void sendEmail(String choice,boolean success) {
+	    if (success) {
+	        try (BufferedWriter writer = new BufferedWriter(new FileWriter("email.txt", true))) {
+	            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss ");
+	            LocalDateTime now = LocalDateTime.now();
+	            writer.write(dtf.format(now) + choice + " has been made.");
+	            writer.newLine();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 	
 	/**
 	 * Initialize the contents of the frame.
@@ -153,10 +166,10 @@ public class Sales {
 		lblSales.setBounds(20, 243, 245, 40);
 		menu.add(lblSales);
 		
-		JLabel lblInventory = new JLabel("Inventory");
-		lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblInventory.setBounds(20, 294, 245, 40);
-		menu.add(lblInventory);
+		JLabel lblActLog = new JLabel("Activity Log");
+		lblActLog.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblActLog.setBounds(20, 294, 245, 40);
+		menu.add(lblActLog);
 		
 		JLabel lblAccount = new JLabel("Account");
 
@@ -802,8 +815,8 @@ public class Sales {
 		
 		JButton btnRestock = new JButton("Restock");
 		btnRestock.setFont(new Font("Tahoma", Font.BOLD, 48));
-
-		
+		btnRestock.setBounds(718, 875, 418, 90);
+		Sales.getContentPane().add(btnRestock);
 		/**
 		 * Events.
 		 */
@@ -817,11 +830,11 @@ public class Sales {
 			}
 		});
 		
-		lblInventory.addMouseListener(new MouseAdapter() {
+		lblActLog.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Inventory inventory = new Inventory();
-				inventory.Inventory.setVisible(true);
+				ActivityLog actlog = new ActivityLog();
+				actlog.ActivityLog.setVisible(true);
 				Sales.dispose();
 			}
 		});
@@ -901,7 +914,7 @@ public class Sales {
 
 		btnCrimeScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblCrime.getText(), Integer.parseInt(lblCrimeQuantity.getText()), Double.parseDouble(lblCrimePrice.getText().replace("$", "")));
+				addTable(202, lblCrime.getText(), Integer.parseInt(lblCrimeQuantity.getText()), Double.parseDouble(lblCrimePrice.getText().replace("$", "")));
 			}
 		});
 		
@@ -936,7 +949,7 @@ public class Sales {
 
 		btnAchillesScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblAchilles.getText(), Integer.parseInt(lblAchillesQuantity.getText()), Double.parseDouble(lblAchillesPrice.getText().replace("$", "")));
+				addTable(303, lblAchilles.getText(), Integer.parseInt(lblAchillesQuantity.getText()), Double.parseDouble(lblAchillesPrice.getText().replace("$", "")));
 			}
 		});
 
@@ -971,7 +984,7 @@ public class Sales {
 
 		btnMeditationsScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblMeditations.getText(), Integer.parseInt(lblMeditationsQuantity.getText()), Double.parseDouble(lblMeditationsPrice.getText().replace("$", "")));
+				addTable(404, lblMeditations.getText(), Integer.parseInt(lblMeditationsQuantity.getText()), Double.parseDouble(lblMeditationsPrice.getText().replace("$", "")));
 			}
 		});
 
@@ -1006,7 +1019,7 @@ public class Sales {
 
 		btnEgoScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblEgo.getText(), Integer.parseInt(lblEgoQuantity.getText()), Double.parseDouble(lblEgoPrice.getText().replace("$", "")));
+				addTable(505, lblEgo.getText(), Integer.parseInt(lblEgoQuantity.getText()), Double.parseDouble(lblEgoPrice.getText().replace("$", "")));
 			}
 		});
 
@@ -1041,7 +1054,7 @@ public class Sales {
 
 		btnMountainScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblMountain.getText(), Integer.parseInt(lblMountainQuantity.getText()), Double.parseDouble(lblMountainPrice.getText().replace("$", "")));
+				addTable(606, lblMountain.getText(), Integer.parseInt(lblMountainQuantity.getText()), Double.parseDouble(lblMountainPrice.getText().replace("$", "")));
 			}
 		});
 
@@ -1076,7 +1089,7 @@ public class Sales {
 
 		btnDiaryScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblDiary.getText(), Integer.parseInt(lblDiaryQuantity.getText()), Double.parseDouble(lblDiaryPrice.getText().replace("$", "")));
+				addTable(707, lblDiary.getText(), Integer.parseInt(lblDiaryQuantity.getText()), Double.parseDouble(lblDiaryPrice.getText().replace("$", "")));
 			}
 		});
 	
@@ -1111,7 +1124,7 @@ public class Sales {
 
 		btnNoliScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblNoli.getText(), Integer.parseInt(lblNoliQuantity.getText()), Double.parseDouble(lblNoliPrice.getText().replace("$", "")));
+				addTable(808, lblNoli.getText(), Integer.parseInt(lblNoliQuantity.getText()), Double.parseDouble(lblNoliPrice.getText().replace("$", "")));
 			}
 		});
 
@@ -1145,7 +1158,7 @@ public class Sales {
 
 		btnVoyageScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(101, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
+				addTable(909, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
 			}
 		});
 		
@@ -1264,7 +1277,7 @@ public class Sales {
         btnRestock.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	sendEmail("Request for restock",true);
-                String bookID = JOptionPane.showInputDialog(null, "Input Product name");
+                String bookID = JOptionPane.showInputDialog(null, "Input Product ID");
 
                 if (bookID != null && !bookID.trim().isEmpty()) {                 
                     String quantityStr = JOptionPane.showInputDialog(null, "Input quantity");
@@ -1312,23 +1325,7 @@ public class Sales {
                 }
             }
         });
-
-		btnRestock.setBounds(718, 875, 418, 90);
-		Sales.getContentPane().add(btnRestock);
 	}
 
-private void sendEmail(String choice,boolean success) {
-    if (success) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("email.txt", true))) {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss ");
-            LocalDateTime now = LocalDateTime.now();
-            writer.write(dtf.format(now) + choice + " has been made.");
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-}
+
 }

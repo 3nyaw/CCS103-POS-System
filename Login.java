@@ -131,17 +131,17 @@ public class Login {
 		panel.setLayout(null);
 		
 		JLabel lblIcon = new JLabel("");
+		lblIcon.setBackground(new Color(0, 0, 0));
 		lblIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIcon.setBounds(65, 55, 200, 200);
+		lblIcon.setBounds(10, 11, 305, 289);
 		panel.add(lblIcon);
-		lblIcon.setIcon(new ImageIcon("C:\\Users\\Terrence John\\Downloads\\logo (200 x 200 px).png"));
+		lblIcon.setIcon(new ImageIcon("C:\\Users\\ASUS\\eclipse-workspace\\POSSystem\\img\\logo.png"));
 		
 		JPanel pnlBorder = new JPanel();
 		pnlBorder.setBorder(null);
 		pnlBorder.setBounds(0, 0, 309, 311);
 		frame.getContentPane().add(pnlBorder);
 		pnlBorder.setLayout(null);
-		
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(87, 207, 120, 37);

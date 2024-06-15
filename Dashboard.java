@@ -4,16 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,19 +25,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.category.DefaultCategoryDataset;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 
 public class Dashboard {
 
@@ -70,6 +68,7 @@ public class Dashboard {
      */
     public Dashboard() {
         initialize();
+        updateRecentTransactionsTable();
     }
 
     /**
@@ -82,29 +81,30 @@ public class Dashboard {
         Dashboard.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dashboard.getContentPane().setLayout(null);
 
-        JPanel panel = new JPanel();
-        panel.setBackground(new Color(192, 192, 192));
-        panel.setBounds(0, 0, 275, 1061);
-        Dashboard.getContentPane().add(panel);
-        panel.setLayout(null);
+        JPanel pnlMenu = new JPanel();
+        pnlMenu.setBackground(new Color(192, 192, 192));
+        pnlMenu.setBounds(0, 0, 275, 1061);
+        Dashboard.getContentPane().add(pnlMenu);
+        pnlMenu.setLayout(null);
 
         JLabel lblTitle = new JLabel("PageTurn");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 48));
         lblTitle.setBounds(10, 5, 255, 89);
-        panel.add(lblTitle);
+        pnlMenu.add(lblTitle);
         lblTitle.setBackground(new Color(255, 255, 255));
 
         JLabel lblPointOfSale = new JLabel("Point of Sale System");
         lblPointOfSale.setFont(new Font("Tahoma", Font.PLAIN, 18));
         lblPointOfSale.setBounds(10, 82, 245, 40);
-        panel.add(lblPointOfSale);
+        pnlMenu.add(lblPointOfSale);
 
         JLabel lblDashboard = new JLabel("   Dashboard");
+        lblDashboard.setForeground(new Color(0, 0, 0));
         lblDashboard.setOpaque(true);
         lblDashboard.setBackground(new Color(128, 128, 128));
-        lblDashboard.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblDashboard.setFont(new Font("Tahoma", Font.BOLD, 24));
         lblDashboard.setBounds(20, 192, 245, 40);
-        panel.add(lblDashboard);
+        pnlMenu.add(lblDashboard);
 
         JLabel lblSales = new JLabel("Sales");
         lblSales.addMouseListener(new MouseAdapter() {
@@ -119,20 +119,20 @@ public class Dashboard {
         lblSales.setBackground(new Color(192, 192, 192));
         lblSales.setFont(new Font("Tahoma", Font.PLAIN, 24));
         lblSales.setBounds(20, 243, 245, 40);
-        panel.add(lblSales);
+        pnlMenu.add(lblSales);
 
-        JLabel lblInventory = new JLabel("Inventory");
-        lblInventory.addMouseListener(new MouseAdapter() {
+        JLabel lblActLog = new JLabel("Activity Log");
+        lblActLog.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Inventory inventory = new Inventory();
-                inventory.Inventory.setVisible(true);
+                ActivityLog actlog = new ActivityLog();
+                actlog.ActivityLog.setVisible(true);
                 Dashboard.dispose();
             }
         });
-        lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        lblInventory.setBounds(20, 294, 245, 40);
-        panel.add(lblInventory);
+        lblActLog.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblActLog.setBounds(20, 294, 245, 40);
+        pnlMenu.add(lblActLog);
 
         JLabel lblAccount = new JLabel("Account");
         lblAccount.addMouseListener(new MouseAdapter() {
@@ -145,7 +145,7 @@ public class Dashboard {
         });
         lblAccount.setFont(new Font("Tahoma", Font.PLAIN, 24));
         lblAccount.setBounds(20, 345, 245, 40);
-        panel.add(lblAccount);
+        pnlMenu.add(lblAccount);
         
         JPanel pnlComponents = new JPanel();
         pnlComponents.setBounds(339, 148, 935, 252);
@@ -269,11 +269,12 @@ public class Dashboard {
         lblReferences.setBounds(1386, 545, 480, 35);
         Dashboard.getContentPane().add(lblReferences);
         
-        JButton btnRegister = new JButton("Register");
+        JButton btnRegister = new JButton("Register Total Sales");
         btnRegister.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		JOptionPane.showConfirmDialog(Dashboard, "Confirm Total Sales?");
         		 registerTotalRevenue();
+        		 sendEmail(true);
         	}
         });
         
@@ -287,7 +288,7 @@ public class Dashboard {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("sales.txt", true))) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
-            writer.write("Date: "+ dtf.format(now) + "| Total Revenue: $" + totalRevenue);
+            writer.write("Date: "+ dtf.format(now) + "| Total Revenue: $" + String.format("%.2f", totalRevenue));
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -299,8 +300,6 @@ public class Dashboard {
     	 lblBooksSold.setText("Sold Books: " + SharedData.getSoldBooks());
     	 lblTotalRevenue.setText("Total Revenue: $" + SharedData.getTotalRevenue());
     	 lblCustomer.setText("Number of Customers: " + SharedData.getTotalCustomers());
-    	 
-    	 updateRecentTransactionsTable();
     }
 
     public static class SharedData {
@@ -383,8 +382,6 @@ public class Dashboard {
     
     private ChartPanel createBarChartPanel() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
- 
         dataset.addValue(500, "Sales Target", "Monday");
         dataset.addValue(600, "Sales Target", "Tuesday");
         dataset.addValue(700, "Sales Target", "Wednesday");
@@ -399,4 +396,17 @@ public class Dashboard {
 
         return new ChartPanel(barChart);
     }
+	private void sendEmail(boolean success) {
+        if (success) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("email.txt", true))) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                writer.write(dtf.format(now) + " Total sales has been registered" );
+                writer.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
