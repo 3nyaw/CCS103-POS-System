@@ -24,6 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Sales {
 
@@ -122,6 +124,9 @@ public class Sales {
 		pnlHeader.setBounds(274, 0, 1650, 90);
 		Sales.getContentPane().add(pnlHeader);
 		
+		JLabel lblNewLabel = new JLabel("New label");
+		pnlHeader.add(lblNewLabel);
+		
 		JLabel lblTitle = new JLabel("PageTurn");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 48));
 		lblTitle.setBounds(10, 5, 255, 89);
@@ -196,13 +201,14 @@ public class Sales {
 		lblDunePrice.setBounds(143, 130, 113, 49);
 		pnlDune.add(lblDunePrice);
 		
-		JLabel lblDuneQuantity = new JLabel("1");
+		JLabel lblDuneQuantity = new JLabel("0");
 		lblDuneQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblDuneQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuneQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDuneQuantity.setBounds(317, 94, 53, 30);
 		pnlDune.add(lblDuneQuantity);
-		
+
+
 		JButton btnDunePlus = new JButton("+");
 		btnDunePlus.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnDunePlus.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -219,6 +225,16 @@ public class Sales {
 		btnDuneScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnDuneScan.setBounds(277, 135, 133, 54);
 		pnlDune.add(btnDuneScan);
+		
+		JLabel lblDuneAvailable = new JLabel("Available Stocks:");
+		lblDuneAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblDuneAvailable.setBounds(141, 102, 101, 17);
+		pnlDune.add(lblDuneAvailable);
+		
+		JLabel lblStockDune = new JLabel("113");
+		lblStockDune.setBounds(234, 102, 33, 14);
+		pnlDune.add(lblStockDune);
+		lblStockDune.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
 		JPanel pnlCrime = new JPanel();
 		pnlCrime.setBounds(429, 51, 420, 200);
@@ -246,9 +262,9 @@ public class Sales {
 		lblCrimePrice.setBounds(143, 130, 113, 49);
 		pnlCrime.add(lblCrimePrice);
 		
-		JLabel lblCrimeQuantity = new JLabel("1");
-		lblCrimeQuantity.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblCrimeQuantity = new JLabel("0");
 		lblCrimeQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblCrimeQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCrimeQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblCrimeQuantity.setBounds(317, 94, 53, 30);
 		pnlCrime.add(lblCrimeQuantity);
@@ -269,6 +285,16 @@ public class Sales {
 		btnCrimeScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnCrimeScan.setBounds(277, 135, 133, 54);
 		pnlCrime.add(btnCrimeScan);
+		
+		JLabel lblStockcrime = new JLabel("41");
+		lblStockcrime.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockcrime.setBounds(214, 105, 22, 14);
+		pnlCrime.add(lblStockcrime);
+		
+		JLabel lblCrimeAvailable = new JLabel("Available Stocks:");
+		lblCrimeAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblCrimeAvailable.setBounds(122, 105, 101, 17);
+		pnlCrime.add(lblCrimeAvailable);
 		
 		JPanel pnlAchilles = new JPanel();
 		pnlAchilles.setBounds(859, 52, 420, 200);
@@ -296,7 +322,7 @@ public class Sales {
 		lblAchillesPrice.setBounds(143, 130, 113, 49);
 		pnlAchilles.add(lblAchillesPrice);
 		
-		JLabel lblAchillesQuantity = new JLabel("1");
+		JLabel lblAchillesQuantity = new JLabel("0");
 		lblAchillesQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAchillesQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAchillesQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -319,6 +345,16 @@ public class Sales {
 		btnAchillesScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnAchillesScan.setBounds(277, 135, 133, 54);
 		pnlAchilles.add(btnAchillesScan);
+		
+		JLabel lblStockAchilles = new JLabel("10");
+		lblStockAchilles.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockAchilles.setBounds(220, 105, 22, 14);
+		pnlAchilles.add(lblStockAchilles);
+		
+		JLabel lblAchillesAvailable = new JLabel("Available Stocks:");
+		lblAchillesAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblAchillesAvailable.setBounds(129, 105, 101, 17);
+		pnlAchilles.add(lblAchillesAvailable);
 		
 		JLabel lblSelfHelp = new JLabel("Self-help");
 		lblSelfHelp.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -351,7 +387,7 @@ public class Sales {
 		lblMeditationsPrice.setBounds(143, 130, 113, 49);
 		pnlMeditations.add(lblMeditationsPrice);
 		
-		JLabel lblMeditationsQuantity = new JLabel("1");
+		JLabel lblMeditationsQuantity = new JLabel("0");
 		lblMeditationsQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMeditationsQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblMeditationsQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -374,6 +410,16 @@ public class Sales {
 		btnMeditationsScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnMeditationsScan.setBounds(277, 135, 133, 54);
 		pnlMeditations.add(btnMeditationsScan);
+		
+		JLabel lblStockMeditations = new JLabel("78");
+		lblStockMeditations.setBounds(234, 105, 22, 14);
+		pnlMeditations.add(lblStockMeditations);
+		lblStockMeditations.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblMeditationsAvailable = new JLabel("Available Stocks:");
+		lblMeditationsAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblMeditationsAvailable.setBounds(144, 105, 101, 17);
+		pnlMeditations.add(lblMeditationsAvailable);
 		
 		JPanel pnlEgo = new JPanel();
 		pnlEgo.setBounds(429, 314, 420, 200);
@@ -401,7 +447,7 @@ public class Sales {
 		lblEgoPrice.setBounds(143, 130, 113, 49);
 		pnlEgo.add(lblEgoPrice);
 		
-		JLabel lblEgoQuantity = new JLabel("1");
+		JLabel lblEgoQuantity = new JLabel("0");
 		lblEgoQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEgoQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblEgoQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -424,6 +470,16 @@ public class Sales {
 		btnEgoScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnEgoScan.setBounds(277, 135, 133, 54);
 		pnlEgo.add(btnEgoScan);
+		
+		JLabel lblStockEgo = new JLabel("85");
+		lblStockEgo.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockEgo.setBounds(235, 105, 22, 14);
+		pnlEgo.add(lblStockEgo);
+		
+		JLabel lblEgoAvailable = new JLabel("Available Stocks:");
+		lblEgoAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblEgoAvailable.setBounds(143, 105, 101, 17);
+		pnlEgo.add(lblEgoAvailable);
 		
 		JPanel pnlMountain = new JPanel();
 		pnlMountain.setBounds(859, 314, 420, 200);
@@ -451,7 +507,7 @@ public class Sales {
 		lblMountainPrice.setBounds(143, 130, 113, 49);
 		pnlMountain.add(lblMountainPrice);
 		
-		JLabel lblMountainQuantity = new JLabel("1");
+		JLabel lblMountainQuantity = new JLabel("0");
 		lblMountainQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMountainQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblMountainQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -475,6 +531,16 @@ public class Sales {
 		btnMountainScan.setBounds(277, 135, 133, 54);
 		pnlMountain.add(btnMountainScan);
 		
+		JLabel lblStockMountain = new JLabel("17");
+		lblStockMountain.setBounds(234, 102, 22, 14);
+		pnlMountain.add(lblStockMountain);
+		lblStockMountain.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		JLabel lblMountainAvailable = new JLabel("Available Stocks:");
+		lblMountainAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblMountainAvailable.setBounds(143, 102, 101, 17);
+		pnlMountain.add(lblMountainAvailable);
+		
 		JLabel lblHistory = new JLabel("History");
 		lblHistory.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblHistory.setBounds(10, 535, 410, 30);
@@ -492,13 +558,13 @@ public class Sales {
 		
 		JLabel lblDiary = new JLabel("Diary of a Young Girl");
 		lblDiary.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblDiary.setBounds(143, 11, 267, 30);
+		lblDiary.setBounds(194, 11, 267, 30);
 		pnlDiary.add(lblDiary);
 		
-		JLabel lblDiaryAuthor = new JLabel("by Anne Frank");
-		lblDiaryAuthor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDiaryAuthor.setBounds(143, 41, 267, 20);
-		pnlDiary.add(lblDiaryAuthor);
+		JLabel lblAnneFrank = new JLabel("by Anne Frank");
+		lblAnneFrank.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblAnneFrank.setBounds(143, 41, 267, 20);
+		pnlDiary.add(lblAnneFrank);
 		
 		JLabel lblDiaryPrice = new JLabel("$7.19");
 		lblDiaryPrice.setHorizontalAlignment(SwingConstants.CENTER);
@@ -506,7 +572,7 @@ public class Sales {
 		lblDiaryPrice.setBounds(143, 130, 113, 49);
 		pnlDiary.add(lblDiaryPrice);
 		
-		JLabel lblDiaryQuantity = new JLabel("1");
+		JLabel lblDiaryQuantity = new JLabel("0");
 		lblDiaryQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDiaryQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDiaryQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -529,6 +595,16 @@ public class Sales {
 		btnDiaryScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnDiaryScan.setBounds(277, 135, 133, 54);
 		pnlDiary.add(btnDiaryScan);
+		
+		JLabel lblStockdiary = new JLabel("62");
+		lblStockdiary.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockdiary.setBounds(234, 105, 22, 14);
+		pnlDiary.add(lblStockdiary);
+		
+		JLabel lblDiaryAvailable = new JLabel("Available Stocks:");
+		lblDiaryAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblDiaryAvailable.setBounds(143, 105, 101, 17);
+		pnlDiary.add(lblDiaryAvailable);
 		
 		JPanel pnlNoli = new JPanel();
 		pnlNoli.setBounds(430, 576, 420, 200);
@@ -556,7 +632,7 @@ public class Sales {
 		lblNoliPrice.setBounds(143, 130, 113, 49);
 		pnlNoli.add(lblNoliPrice);
 		
-		JLabel lblNoliQuantity = new JLabel("1");
+		JLabel lblNoliQuantity = new JLabel("0");
 		lblNoliQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNoliQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNoliQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -579,6 +655,16 @@ public class Sales {
 		btnNoliScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnNoliScan.setBounds(277, 135, 133, 54);
 		pnlNoli.add(btnNoliScan);
+		
+		JLabel lblStockNoli = new JLabel("104");
+		lblStockNoli.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockNoli.setBounds(234, 105, 33, 14);
+		pnlNoli.add(lblStockNoli);
+		
+		JLabel lblNoliAvailable = new JLabel("Available Stocks:");
+		lblNoliAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblNoliAvailable.setBounds(143, 105, 101, 17);
+		pnlNoli.add(lblNoliAvailable);
 		
 		JPanel pnlVoyage = new JPanel();
 		pnlVoyage.setBounds(859, 576, 420, 200);
@@ -606,7 +692,7 @@ public class Sales {
 		lblVoyagePrice.setBounds(143, 130, 113, 49);
 		pnlVoyage.add(lblVoyagePrice);
 		
-		JLabel lblVoyageQuantity = new JLabel("1");
+		JLabel lblVoyageQuantity = new JLabel("0");
 		lblVoyageQuantity.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVoyageQuantity.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblVoyageQuantity.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -629,6 +715,16 @@ public class Sales {
 		btnVoyageScan.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnVoyageScan.setBounds(277, 135, 133, 54);
 		pnlVoyage.add(btnVoyageScan);
+		
+		JLabel lblStockVoyage = new JLabel("28");
+		lblStockVoyage.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblStockVoyage.setBounds(234, 105, 22, 14);
+		pnlVoyage.add(lblStockVoyage);
+		
+		JLabel lblVoyageAvailable = new JLabel("Available Stocks:");
+		lblVoyageAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblVoyageAvailable.setBounds(143, 105, 101, 17);
+		pnlVoyage.add(lblVoyageAvailable);
 		
 		JPanel pnlPay = new JPanel();
 		pnlPay.setBackground(new Color(192, 192, 192));
@@ -667,7 +763,7 @@ public class Sales {
 
 		JButton btnNewButton = new JButton("N E W");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 48));
-		btnNewButton.setBounds(285, 875, 860, 112);
+		btnNewButton.setBounds(284, 875, 424, 90);
 		Sales.getContentPane().add(btnNewButton);
 		
 		lblTotal = new JLabel("TOTAL: $00.00");
@@ -704,6 +800,34 @@ public class Sales {
 		btnPrint.setBounds(10, 409, 330, 30);
 		pnlPrint.add(btnPrint);
 		
+		JButton btnRestock = new JButton("Restock");
+		btnRestock.setFont(new Font("Tahoma", Font.BOLD, 48));
+        btnRestock.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String bookName = JOptionPane.showInputDialog(null, "Input Product name");
+
+                if (bookName != null && !bookName.trim().isEmpty()) {                 
+                    String quantityStr = JOptionPane.showInputDialog(null, "Input quantity");
+
+                    if (quantityStr != null && !quantityStr.trim().isEmpty()) { 
+                        try {
+                            int quantity = Integer.parseInt(quantityStr);  
+                            JOptionPane.showMessageDialog(null, "Your request for " + bookName + " of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid quantity. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Quantity cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Product name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+		btnRestock.setBounds(724, 875, 406, 90);
+		Sales.getContentPane().add(btnRestock);
+		
 		/**
 		 * Events.
 		 */
@@ -721,7 +845,7 @@ public class Sales {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Inventory inventory = new Inventory();
-				inventory.Inventory.setVisible(true);
+//				inventory.Inventory.setVisible(true);
 				Sales.dispose();
 			}
 		});
@@ -738,21 +862,31 @@ public class Sales {
 		//dune
 		btnDunePlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblDuneQuantity.getText());
-                quantity++;
-                lblDuneQuantity.setText(String.valueOf(quantity));
-			}
-		});
+				 int quantity = Integer.parseInt(lblDuneQuantity.getText());
+	                int stock = Integer.parseInt(lblStockDune.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblDuneQuantity.setText(String.valueOf(quantity));
+	                    lblStockDune.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
 
 		btnDuneMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblDuneQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockDune.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblDuneQuantity.setText(String.valueOf(quantity));
+                    lblStockDune.setText(String.valueOf(stock));
                 }
-                lblDuneQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnDuneScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -761,202 +895,281 @@ public class Sales {
 		});
 		
 		//crime and punishment
+		btnCrimePlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblCrimeQuantity.getText());
+	                int stock = Integer.parseInt(lblStockcrime.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblCrimeQuantity.setText(String.valueOf(quantity));
+	                    lblStockcrime.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnCrimeMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblCrimeQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockcrime.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblCrimeQuantity.setText(String.valueOf(quantity));
+                    lblStockcrime.setText(String.valueOf(stock));
                 }
-                lblCrimeQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnCrimePlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblCrimeQuantity.getText());
-                quantity++;
-                lblCrimeQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnCrimeScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(202, lblCrime.getText(), Integer.parseInt(lblCrimeQuantity.getText()), Double.parseDouble(lblCrimePrice.getText().replace("$", "")));
-			}
-		});
-
-		//the songs of achilles
-		btnAchillesMinus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblAchillesQuantity.getText());
-                if (quantity > 1) {
-                    quantity--;
-                }
-                lblAchillesQuantity.setText(String.valueOf(quantity));
+				addTable(101, lblCrime.getText(), Integer.parseInt(lblCrimeQuantity.getText()), Double.parseDouble(lblCrimePrice.getText().replace("$", "")));
 			}
 		});
 		
+		//the songs of achilles
 		btnAchillesPlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblAchillesQuantity.getText());
+	                int stock = Integer.parseInt(lblStockAchilles.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblAchillesQuantity.setText(String.valueOf(quantity));
+	                    lblStockAchilles.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
+		btnAchillesMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblAchillesQuantity.getText());
-                quantity++;
-                lblAchillesQuantity.setText(String.valueOf(quantity));
-			}
-		});
+                int stock = Integer.parseInt(lblStockAchilles.getText());
+                if (quantity > 0) {
+                    quantity--;
+                    stock++;
+                    lblAchillesQuantity.setText(String.valueOf(quantity));
+                    lblStockAchilles.setText(String.valueOf(stock));
+                }
+            }
+        });
 
 		btnAchillesScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(303, lblAchilles.getText(), Integer.parseInt(lblAchillesQuantity.getText()), Double.parseDouble(lblAchillesPrice.getText().replace("$", "")));
+				addTable(101, lblAchilles.getText(), Integer.parseInt(lblAchillesQuantity.getText()), Double.parseDouble(lblAchillesPrice.getText().replace("$", "")));
 			}
 		});
 
 		//meditations
+		btnMeditationsPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblMeditationsQuantity.getText());
+	                int stock = Integer.parseInt(lblStockMeditations.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblMeditationsQuantity.setText(String.valueOf(quantity));
+	                    lblStockMeditations.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnMeditationsMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblMeditationsQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockMeditations.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblMeditationsQuantity.setText(String.valueOf(quantity));
+                    lblStockMeditations.setText(String.valueOf(stock));
                 }
-                lblMeditationsQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnMeditationsPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblMeditationsQuantity.getText());
-                quantity++;
-                lblMeditationsQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnMeditationsScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(404, lblMeditations.getText(), Integer.parseInt(lblMeditationsQuantity.getText()), Double.parseDouble(lblMeditationsPrice.getText().replace("$", "")));
+				addTable(101, lblMeditations.getText(), Integer.parseInt(lblMeditationsQuantity.getText()), Double.parseDouble(lblMeditationsPrice.getText().replace("$", "")));
 			}
 		});
 
 		//ego is the enemy
+		btnEgoPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblEgoQuantity.getText());
+	                int stock = Integer.parseInt(lblStockEgo.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblEgoQuantity.setText(String.valueOf(quantity));
+	                    lblStockEgo.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnEgoMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblEgoQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockEgo.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblEgoQuantity.setText(String.valueOf(quantity));
+                    lblStockEgo.setText(String.valueOf(stock));
                 }
-                lblEgoQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnEgoPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblEgoQuantity.getText());
-                quantity++;
-                lblEgoQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnEgoScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(505, lblEgo.getText(), Integer.parseInt(lblEgoQuantity.getText()), Double.parseDouble(lblEgoPrice.getText().replace("$", "")));
+				addTable(101, lblEgo.getText(), Integer.parseInt(lblEgoQuantity.getText()), Double.parseDouble(lblEgoPrice.getText().replace("$", "")));
 			}
 		});
 
 		//the mountain is you
+		btnMountainPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblMountainQuantity.getText());
+	                int stock = Integer.parseInt(lblStockMountain.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblMountainQuantity.setText(String.valueOf(quantity));
+	                    lblStockMountain.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnMountainMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblMountainQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockMountain.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblMountainQuantity.setText(String.valueOf(quantity));
+                    lblStockMountain.setText(String.valueOf(stock));
                 }
-                lblMountainQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnMountainPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblMountainQuantity.getText());
-                quantity++;
-                lblMountainQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnMountainScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(606, lblMountain.getText(), Integer.parseInt(lblMountainQuantity.getText()), Double.parseDouble(lblMountainPrice.getText().replace("$", "")));
+				addTable(101, lblMountain.getText(), Integer.parseInt(lblMountainQuantity.getText()), Double.parseDouble(lblMountainPrice.getText().replace("$", "")));
 			}
 		});
 
 		//the diary of a young girl
+		btnDiaryPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblDiaryQuantity.getText());
+	                int stock = Integer.parseInt(lblStockdiary.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblDiaryQuantity.setText(String.valueOf(quantity));
+	                    lblStockdiary.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnDiaryMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblDiaryQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockdiary.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblDiaryQuantity.setText(String.valueOf(quantity));
+                    lblStockdiary.setText(String.valueOf(stock));
                 }
-                lblDiaryQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnDiaryPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblDiaryQuantity.getText());
-                quantity++;
-                lblDiaryQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnDiaryScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(707, lblDiary.getText(), Integer.parseInt(lblDiaryQuantity.getText()), Double.parseDouble(lblDiaryPrice.getText().replace("$", "")));
+				addTable(101, lblDiary.getText(), Integer.parseInt(lblDiaryQuantity.getText()), Double.parseDouble(lblDiaryPrice.getText().replace("$", "")));
 			}
 		});
 	
 		//noli me tangere
+		btnNoliPlus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblNoliQuantity.getText());
+	                int stock = Integer.parseInt(lblStockNoli.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblNoliQuantity.setText(String.valueOf(quantity));
+	                    lblStockNoli.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
 		btnNoliMinus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblNoliQuantity.getText());
-                if (quantity > 1) {
+                int stock = Integer.parseInt(lblStockNoli.getText());
+                if (quantity > 0) {
                     quantity--;
+                    stock++;
+                    lblNoliQuantity.setText(String.valueOf(quantity));
+                    lblStockNoli.setText(String.valueOf(stock));
                 }
-                lblNoliQuantity.setText(String.valueOf(quantity));
-			}
-		});
-
-		btnNoliPlus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblNoliQuantity.getText());
-                quantity++;
-                lblNoliQuantity.setText(String.valueOf(quantity));
-			}
-		});
+            }
+        });
 
 		btnNoliScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(808, lblNoli.getText(), Integer.parseInt(lblNoliQuantity.getText()), Double.parseDouble(lblNoliPrice.getText().replace("$", "")));
-			}
-		});
-
-		//the first voyage around the world
-		btnVoyageMinus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                int quantity = Integer.parseInt(lblVoyageQuantity.getText());
-                if (quantity > 1) {
-                    quantity--;
-                }
-                lblVoyageQuantity.setText(String.valueOf(quantity));
+				addTable(101, lblNoli.getText(), Integer.parseInt(lblNoliQuantity.getText()), Double.parseDouble(lblNoliPrice.getText().replace("$", "")));
 			}
 		});
 
 		btnVoyagePlus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 int quantity = Integer.parseInt(lblVoyageQuantity.getText());
+	                int stock = Integer.parseInt(lblStockVoyage.getText());
+	                if (stock > 0) {
+	                    quantity++;
+	                    stock--;
+	                    lblVoyageQuantity.setText(String.valueOf(quantity));
+	                    lblStockVoyage.setText(String.valueOf(stock));
+	                } else {
+	                    JOptionPane.showMessageDialog(Sales, "No more stock available!");
+	                }
+	            }
+	        });
+
+		btnVoyageMinus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
                 int quantity = Integer.parseInt(lblVoyageQuantity.getText());
-                quantity++;
-                lblVoyageQuantity.setText(String.valueOf(quantity));
-			}
-		});
+                int stock = Integer.parseInt(lblStockVoyage.getText());
+                if (quantity > 0) {
+                    quantity--;
+                    stock++;
+                    lblVoyageQuantity.setText(String.valueOf(quantity));
+                    lblStockVoyage.setText(String.valueOf(stock));
+                }
+            }
+        });
 
 		btnVoyageScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addTable(909, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
+				addTable(101, lblVoyage.getText(), Integer.parseInt(lblVoyageQuantity.getText()), Double.parseDouble(lblVoyagePrice.getText().replace("$", "")));
 			}
 		});
 		
@@ -993,10 +1206,9 @@ public class Sales {
 							 purchaseMade = true;
 							 DefaultTableModel tableModel = (DefaultTableModel) tblPurchase.getModel();
                              for (int i = 0; i < tblPurchase.getRowCount(); i++) {
-                                 String bookName = tableModel.getValueAt(i, 0).toString(); 
                                  int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
                                  double price = Double.parseDouble(tableModel.getValueAt(i, 3).toString());
-                                 Dashboard.SharedData.addBook(quantity, price, bookName);
+//                                 Dashboard.SharedData.addBook(quantity, price);
                              }
                              SwingUtilities.invokeLater(new Runnable() {
                                  public void run() {
@@ -1004,15 +1216,15 @@ public class Sales {
                                      dashboard.updateDashboard();
                                  }
                              });
-							 lblDuneQuantity.setText("1");
-							 lblCrimeQuantity.setText("1");
-							 lblAchillesQuantity.setText("1");
-							 lblMeditationsQuantity.setText("1");
-							 lblEgoQuantity.setText("1");
-							 lblMountainQuantity.setText("1");
-							 lblDiaryQuantity.setText("1");
-							 lblNoliQuantity.setText("1");
-							 lblVoyageQuantity.setText("1");
+							 lblDuneQuantity.setText("0");
+							 lblCrimeQuantity.setText("0");
+							 lblAchillesQuantity.setText("0");
+							 lblMeditationsQuantity.setText("0");
+							 lblEgoQuantity.setText("0");
+							 lblMountainQuantity.setText("0");
+							 lblDiaryQuantity.setText("0");
+							 lblNoliQuantity.setText("0");
+							 lblVoyageQuantity.setText("0");
 						 }
 					 } catch (NumberFormatException ex) {
 		                    JOptionPane.showMessageDialog(Sales, "Invalid cash amount", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1059,7 +1271,7 @@ public class Sales {
 					tableModel.setRowCount(0);
 					lblTotal.setText("TOTAL: $00.00");
 					txtCash.setText(null);
-					lblBalance.setText(null);
+					lblBalance.setText("BALANCE: ");
 					txtaReceipt.setText(null);
 				} 
 				else {
