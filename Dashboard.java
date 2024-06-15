@@ -31,9 +31,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
-import javax.swing.JProgressBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -234,6 +231,7 @@ public class Dashboard {
             new String[] {"Book Id","Quantity", "Total Amount"}
         );
         table.setModel(recentTransactionsTableModel);
+
         
         JLabel lblRecent = new JLabel("Recent Transaction");
         lblRecent.setHorizontalAlignment(SwingConstants.CENTER);
@@ -274,8 +272,8 @@ public class Dashboard {
         JButton btnRegister = new JButton("Register");
         btnRegister.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		JOptionPane.showConfirmDialog(Dashboard, "Confirm Total Sales?");
         		 registerTotalRevenue();
-        	JOptionPane.showMessageDialog(null, "Purchased Registered!");
         	}
         });
         
@@ -374,14 +372,14 @@ public class Dashboard {
     }
     
     private void updateRecentTransactionsTable() {
-        recentTransactionsTableModel.setRowCount(0);
-
+//        recentTransactionsTableModel.setRowCount(0);
         for (SharedData.Transaction transaction : SharedData.getRecentTransactions()) {
             Object[] row = {transaction.getBookName(), transaction.getQuantity(), transaction.getTotalAmount()};
             recentTransactionsTableModel.addRow(row);
         }
     }
-
+    
+   
     
     private ChartPanel createBarChartPanel() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
