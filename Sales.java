@@ -7,7 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -1161,6 +1166,7 @@ public class Sales {
 		 //purchase button
 		 btnPurchse.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
+				 sendEmail("A purchase",true);
 				 if (txtCash.getText().trim().isEmpty()) {
 		                JOptionPane.showMessageDialog(Sales, "Please enter cash amount", "Error", JOptionPane.ERROR_MESSAGE);
 				 } else {
@@ -1257,6 +1263,7 @@ public class Sales {
 		//re-stock button
         btnRestock.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	sendEmail("Request for restock",true);
                 String bookID = JOptionPane.showInputDialog(null, "Input Product name");
 
                 if (bookID != null && !bookID.trim().isEmpty()) {                 
@@ -1309,4 +1316,19 @@ public class Sales {
 		btnRestock.setBounds(718, 875, 418, 90);
 		Sales.getContentPane().add(btnRestock);
 	}
+
+private void sendEmail(String choice,boolean success) {
+    if (success) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("email.txt", true))) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss ");
+            LocalDateTime now = LocalDateTime.now();
+            writer.write(dtf.format(now) + choice + " has been made.");
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+}
 }
