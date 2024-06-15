@@ -24,8 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class Sales {
 
@@ -123,9 +121,6 @@ public class Sales {
 		pnlHeader.setBackground(new Color(128, 128, 128));
 		pnlHeader.setBounds(274, 0, 1650, 90);
 		Sales.getContentPane().add(pnlHeader);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		pnlHeader.add(lblNewLabel);
 		
 		JLabel lblTitle = new JLabel("PageTurn");
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 48));
@@ -228,11 +223,11 @@ public class Sales {
 		
 		JLabel lblDuneAvailable = new JLabel("Available Stocks:");
 		lblDuneAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblDuneAvailable.setBounds(141, 102, 101, 17);
+		lblDuneAvailable.setBounds(143, 102, 81, 14);
 		pnlDune.add(lblDuneAvailable);
 		
-		JLabel lblStockDune = new JLabel("113");
-		lblStockDune.setBounds(234, 102, 33, 14);
+		JLabel lblStockDune = new JLabel("13");
+		lblStockDune.setBounds(234, 100, 33, 14);
 		pnlDune.add(lblStockDune);
 		lblStockDune.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
@@ -288,12 +283,12 @@ public class Sales {
 		
 		JLabel lblStockcrime = new JLabel("41");
 		lblStockcrime.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockcrime.setBounds(214, 105, 22, 14);
+		lblStockcrime.setBounds(234, 100, 22, 14);
 		pnlCrime.add(lblStockcrime);
 		
 		JLabel lblCrimeAvailable = new JLabel("Available Stocks:");
 		lblCrimeAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblCrimeAvailable.setBounds(122, 105, 101, 17);
+		lblCrimeAvailable.setBounds(143, 102, 81, 14);
 		pnlCrime.add(lblCrimeAvailable);
 		
 		JPanel pnlAchilles = new JPanel();
@@ -348,12 +343,12 @@ public class Sales {
 		
 		JLabel lblStockAchilles = new JLabel("10");
 		lblStockAchilles.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockAchilles.setBounds(220, 105, 22, 14);
+		lblStockAchilles.setBounds(234, 100, 22, 14);
 		pnlAchilles.add(lblStockAchilles);
 		
 		JLabel lblAchillesAvailable = new JLabel("Available Stocks:");
 		lblAchillesAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblAchillesAvailable.setBounds(129, 105, 101, 17);
+		lblAchillesAvailable.setBounds(143, 102, 81, 14);
 		pnlAchilles.add(lblAchillesAvailable);
 		
 		JLabel lblSelfHelp = new JLabel("Self-help");
@@ -412,13 +407,13 @@ public class Sales {
 		pnlMeditations.add(btnMeditationsScan);
 		
 		JLabel lblStockMeditations = new JLabel("78");
-		lblStockMeditations.setBounds(234, 105, 22, 14);
+		lblStockMeditations.setBounds(234, 100, 22, 14);
 		pnlMeditations.add(lblStockMeditations);
 		lblStockMeditations.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
 		JLabel lblMeditationsAvailable = new JLabel("Available Stocks:");
 		lblMeditationsAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblMeditationsAvailable.setBounds(144, 105, 101, 17);
+		lblMeditationsAvailable.setBounds(144, 102, 81, 14);
 		pnlMeditations.add(lblMeditationsAvailable);
 		
 		JPanel pnlEgo = new JPanel();
@@ -473,12 +468,12 @@ public class Sales {
 		
 		JLabel lblStockEgo = new JLabel("85");
 		lblStockEgo.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockEgo.setBounds(235, 105, 22, 14);
+		lblStockEgo.setBounds(233, 100, 22, 14);
 		pnlEgo.add(lblStockEgo);
 		
 		JLabel lblEgoAvailable = new JLabel("Available Stocks:");
 		lblEgoAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblEgoAvailable.setBounds(143, 105, 101, 17);
+		lblEgoAvailable.setBounds(143, 102, 81, 14);
 		pnlEgo.add(lblEgoAvailable);
 		
 		JPanel pnlMountain = new JPanel();
@@ -532,13 +527,13 @@ public class Sales {
 		pnlMountain.add(btnMountainScan);
 		
 		JLabel lblStockMountain = new JLabel("17");
-		lblStockMountain.setBounds(234, 102, 22, 14);
+		lblStockMountain.setBounds(234, 100, 22, 14);
 		pnlMountain.add(lblStockMountain);
 		lblStockMountain.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
 		JLabel lblMountainAvailable = new JLabel("Available Stocks:");
 		lblMountainAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblMountainAvailable.setBounds(143, 102, 101, 17);
+		lblMountainAvailable.setBounds(143, 102, 81, 14);
 		pnlMountain.add(lblMountainAvailable);
 		
 		JLabel lblHistory = new JLabel("History");
@@ -558,7 +553,7 @@ public class Sales {
 		
 		JLabel lblDiary = new JLabel("Diary of a Young Girl");
 		lblDiary.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblDiary.setBounds(194, 11, 267, 30);
+		lblDiary.setBounds(143, 11, 267, 30);
 		pnlDiary.add(lblDiary);
 		
 		JLabel lblAnneFrank = new JLabel("by Anne Frank");
@@ -598,12 +593,12 @@ public class Sales {
 		
 		JLabel lblStockdiary = new JLabel("62");
 		lblStockdiary.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockdiary.setBounds(234, 105, 22, 14);
+		lblStockdiary.setBounds(234, 100, 22, 14);
 		pnlDiary.add(lblStockdiary);
 		
 		JLabel lblDiaryAvailable = new JLabel("Available Stocks:");
 		lblDiaryAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblDiaryAvailable.setBounds(143, 105, 101, 17);
+		lblDiaryAvailable.setBounds(143, 102, 81, 14);
 		pnlDiary.add(lblDiaryAvailable);
 		
 		JPanel pnlNoli = new JPanel();
@@ -658,12 +653,12 @@ public class Sales {
 		
 		JLabel lblStockNoli = new JLabel("104");
 		lblStockNoli.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockNoli.setBounds(234, 105, 33, 14);
+		lblStockNoli.setBounds(234, 100, 33, 14);
 		pnlNoli.add(lblStockNoli);
 		
 		JLabel lblNoliAvailable = new JLabel("Available Stocks:");
 		lblNoliAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNoliAvailable.setBounds(143, 105, 101, 17);
+		lblNoliAvailable.setBounds(143, 102, 81, 14);
 		pnlNoli.add(lblNoliAvailable);
 		
 		JPanel pnlVoyage = new JPanel();
@@ -718,12 +713,12 @@ public class Sales {
 		
 		JLabel lblStockVoyage = new JLabel("28");
 		lblStockVoyage.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblStockVoyage.setBounds(234, 105, 22, 14);
+		lblStockVoyage.setBounds(234, 100, 22, 14);
 		pnlVoyage.add(lblStockVoyage);
 		
 		JLabel lblVoyageAvailable = new JLabel("Available Stocks:");
 		lblVoyageAvailable.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblVoyageAvailable.setBounds(143, 105, 101, 17);
+		lblVoyageAvailable.setBounds(143, 102, 81, 14);
 		pnlVoyage.add(lblVoyageAvailable);
 		
 		JPanel pnlPay = new JPanel();
@@ -802,31 +797,7 @@ public class Sales {
 		
 		JButton btnRestock = new JButton("Restock");
 		btnRestock.setFont(new Font("Tahoma", Font.BOLD, 48));
-        btnRestock.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String bookName = JOptionPane.showInputDialog(null, "Input Product name");
 
-                if (bookName != null && !bookName.trim().isEmpty()) {                 
-                    String quantityStr = JOptionPane.showInputDialog(null, "Input quantity");
-
-                    if (quantityStr != null && !quantityStr.trim().isEmpty()) { 
-                        try {
-                            int quantity = Integer.parseInt(quantityStr);  
-                            JOptionPane.showMessageDialog(null, "Your request for " + bookName + " of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(null, "Invalid quantity. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Quantity cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Product name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-
-		btnRestock.setBounds(724, 875, 406, 90);
-		Sales.getContentPane().add(btnRestock);
 		
 		/**
 		 * Events.
@@ -845,7 +816,7 @@ public class Sales {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Inventory inventory = new Inventory();
-//				inventory.Inventory.setVisible(true);
+				inventory.Inventory.setVisible(true);
 				Sales.dispose();
 			}
 		});
@@ -1208,7 +1179,8 @@ public class Sales {
                              for (int i = 0; i < tblPurchase.getRowCount(); i++) {
                                  int quantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
                                  double price = Double.parseDouble(tableModel.getValueAt(i, 3).toString());
-//                                 Dashboard.SharedData.addBook(quantity, price);
+                                 String bookName = tableModel.getValueAt(i, 0).toString();
+                                 Dashboard.SharedData.addBook(quantity, price, bookName);
                              }
                              SwingUtilities.invokeLater(new Runnable() {
                                  public void run() {
@@ -1265,6 +1237,8 @@ public class Sales {
 			 }
 		 });
 		 
+		 
+		//new button
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (tableModel != null && tableModel.getRowCount() > 0) {
@@ -1279,5 +1253,60 @@ public class Sales {
 				}
 			}
 		});
+		
+		//re-stock button
+        btnRestock.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String bookID = JOptionPane.showInputDialog(null, "Input Product name");
+
+                if (bookID != null && !bookID.trim().isEmpty()) {                 
+                    String quantityStr = JOptionPane.showInputDialog(null, "Input quantity");
+
+                    if (quantityStr != null && !quantityStr.trim().isEmpty()) { 
+                        try {
+                            int quantity = Integer.parseInt(quantityStr);
+                            switch(bookID) {
+                            case "101": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"Dune\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "202": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"Crime and Punishment of\"" + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "303": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"The Song of Achilles\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "404": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"Meditations\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "505": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"Ego is the Enemy\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "606": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"The Mountain is You\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "707": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"The Diary of a Young Girl\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "808": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"Noli me Tangere\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            case "909": 
+                                JOptionPane.showMessageDialog(null, "Your request for \"The First Voyage Around the World\" of " + quantity +  " stocks was sent to the supplier. Expect an e-mail for the next 24 hours.");
+                                break;
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Invalid quantity. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Quantity cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Product name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+		btnRestock.setBounds(718, 875, 418, 90);
+		Sales.getContentPane().add(btnRestock);
 	}
 }
