@@ -192,7 +192,7 @@ public class Account {
         pInfoPanel.add(lblAge);
         
         JLabel profileImage = new JLabel("");
-        ImageIcon icon = new ImageIcon("C:\\Users\\Karo\\eclipse-workspace\\POSSystem\\img\\den.png");
+        ImageIcon icon = new ImageIcon("C:\\Users\\Terrence John\\eclipse-workspace\\POSSystem\\img\\den.png");
         Image image = icon.getImage().getScaledInstance(350, 350, java.awt.Image.SCALE_SMOOTH);
         profileImage.setIcon(new ImageIcon(image));
         profileImage.setBounds(66, 45, 340, 275); 
@@ -273,6 +273,7 @@ public class Account {
         contentPane.add(btnClearSalesHistory);
         btnClearSalesHistory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	JOptionPane.showConfirmDialog(Account, "Are you sure?");
                 clearFileContent("sales.txt");
                 salesHistoryArea.setText("");
   
@@ -285,6 +286,7 @@ public class Account {
         contentPane.add(btnClearLoginHistory);
         btnClearLoginHistory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	JOptionPane.showConfirmDialog(Account, "Are you sure?");
                 clearFileContent("login_history.txt");
                 loginHistoryArea.setText("");
             }
