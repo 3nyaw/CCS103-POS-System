@@ -64,7 +64,75 @@ public class Main {
 			
 		}
 	}
-	
+
+	private static void viewTransactionHistory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void returnBook() throws IOException{
+		
+		while (true) {
+		System.out.print("\n---------------------");
+		System.out.println("\nReturn a Book");
+		
+		System.out.print("\nEnter Book Slot: ");
+		int slot = Integer.parseInt(reader.readLine())-1;
+		
+		//Checking valid slot number
+		if(slot < 0 || slot >=books.length) {
+			System.out.println("Invalid Slot Number, Please Try Again. ");
+			continue;
+		}
+		//Checking book slot occupied
+		if ( books[slot] != null ) {
+			System.out.println("Book Slot Occupied. ");
+			continue;
+		}
+		
+		System.out.print("\nBook ID: ");
+		String bookID = reader.readLine();
+		System.out.print("Title: ");
+		String title = reader.readLine();
+		System.out.print("Author: ");
+		String author = reader.readLine();
+		System.out.print("Rental Price: ");
+		String price = reader.readLine();
+		books[slot] = bookID + " | " + title + " | " + author + " | " + price; 
+		bookCount++;
+		
+		System.out.print("\nDetails of The Book Returned [ " + " Book Id: " + bookID + " Title: " + title + " Author: " + author + " Rental Price: " + price+ " ]");
+		System.out.println();
+		System.out.print("Book Status: Available \n");
+		System.out.print("Book Successfully Returned!\n");
+		
+		
+		viewBooks(books);
+		break;
+		}
+	}
+	private static void rentBook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void viewBookRecords() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void viewBooks(String books[]) {
+		System.out.println();
+		for(int i = 0; i < books.length; i++) {
+			if(books[i] == null) {
+				System.out.println("Slot #" + (i+1) + ": Empty");
+			} else {
+				System.out.println("Slot #" + (i+1) + ": " + books[i]);
+			}
+		}
+		System.out.println();
+	}
+
 	private static void addNewBook(String book[]) throws IOException{
 		boolean slotTaken = false;
 		int slot = 0;
@@ -85,6 +153,8 @@ public class Main {
 				bookCount++;
 				break;
 			} else {
+				
+				while(true) {
 				System.out.println("\nBook slot occupied.");
 				System.out.println("\n1. Choose another slot.");
 				System.out.println("2. Replace book");
@@ -94,7 +164,7 @@ public class Main {
 				System.out.println("\n---------------------");
 				
 				if(command == 1) {
-					continue;
+					break;
 				} else if(command == 2) {
 					replace(book, slot, reader);
 					break;
@@ -103,42 +173,11 @@ public class Main {
 					break;
 				} else {
 					System.out.println("Invalid Input. Try again.");
+					continue;
+					}
 				}
 			}
 		}
-		
-	}
-
-	private static void viewBookRecords() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private static void rentBook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void returnBook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void viewTransactionHistory() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void viewBooks(String books[]) {
-		System.out.println();
-		for(int i = 0; i < books.length; i++) {
-			if(books[i] == null) {
-				System.out.println("Slot #" + (i+1) + ": Empty");
-			} else {
-				System.out.println("Slot #" + (i+1) + ": " + books[i]);
-			}
-		}
-		System.out.println();
 	}
 
 	private static void replace(String[] book, int slot, BufferedReader reader2) throws IOException {
