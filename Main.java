@@ -154,7 +154,8 @@ public class Main {
 	}
 
 	private static void viewBookRecords() throws IOException{
-		System.out.println("\nAvailable Books:");
+	          System.out.println("\nAvailable Books:");
+		//Checking if books are rented, Available books will be put in this category and leave them be if null.
     for (int i = 0; i < books.length; i++) {
         if (books[i] != null && !books[i].contains("Rented")) {
             System.out.println("Slot #" + (i + 1) + ": " + books[i]);
@@ -162,6 +163,7 @@ public class Main {
     }
 
     System.out.println("\nUnavailable Books (Rented):");
+		//Checking if books are rented, rented books will be put in this category and leave them be if null.
     for (int i = 0; i < books.length; i++) {
         if (books[i] != null && books[i].contains("Rented")) {
             System.out.println("Slot #" + (i + 1) + ": " + books[i]);
