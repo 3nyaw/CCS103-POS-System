@@ -64,39 +64,7 @@ public class Main {
 			
 		}
 	}
-
-	private static void viewTransactionHistory() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void returnBook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void rentBook() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void viewBookRecords() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void viewBooks(String books[]) {
-		System.out.println();
-		for(int i = 0; i < books.length; i++) {
-			if(books[i] == null) {
-				System.out.println("Slot #" + (i+1) + ": Empty");
-			} else {
-				System.out.println("Slot #" + (i+1) + ": " + books[i]);
-			}
-		}
-		System.out.println();
-	}
-
+	
 	private static void addNewBook(String book[]) throws IOException{
 		boolean slotTaken = false;
 		int slot = 0;
@@ -139,6 +107,38 @@ public class Main {
 			}
 		}
 		
+	}
+
+	private static void viewBookRecords() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private static void rentBook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void returnBook() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void viewTransactionHistory() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void viewBooks(String books[]) {
+		System.out.println();
+		for(int i = 0; i < books.length; i++) {
+			if(books[i] == null) {
+				System.out.println("Slot #" + (i+1) + ": Empty");
+			} else {
+				System.out.println("Slot #" + (i+1) + ": " + books[i]);
+			}
+		}
+		System.out.println();
 	}
 
 	private static void replace(String[] book, int slot, BufferedReader reader2) throws IOException {
