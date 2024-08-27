@@ -102,16 +102,14 @@ public class Main {
 				while(true) {
 					System.out.print("\nBook ID: ");
 					String input = reader.readLine();
-					boolean uniqueID = true;
+					boolean notUniqueID = false;
 					for(int i = 0; i < bookID.length; i++) {
 						if(input.equals(bookID[i])) {
-				        	uniqueID = false;
+							notUniqueID = true;
+							break;
 				        }
-						else {
-							uniqueID = true;
-						}
 					}
-					if(uniqueID) {
+					if(notUniqueID) {
 						System.out.println("Book ID already exist. Try again.");
 						continue;
 					} else {
@@ -244,14 +242,14 @@ public class Main {
 	}
 
 	private static void replace(String[] books, int slot, BufferedReader reader2) throws IOException {
-		String input;
-		boolean notUniqueID = false;
 		while(true) {
 			System.out.print("\nBook ID: ");
-			input = reader.readLine();
+			String input = reader.readLine();
+			boolean notUniqueID = false;
 			for(int i = 0; i < bookID.length; i++) {
 				if(input.equals(bookID[i])) {
-		        	notUniqueID = true;
+					notUniqueID = true;
+					break;
 		        }
 			}
 			if(notUniqueID) {
