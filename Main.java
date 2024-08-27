@@ -154,8 +154,23 @@ public class Main {
 	}
 
 	private static void viewBookRecords() throws IOException{
-		viewBooks(books);
+		System.out.println("\nAvailable Books:");
+    for (int i = 0; i < books.length; i++) {
+        if (books[i] != null && !books[i].contains("Rented")) {
+            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
+        }
+    }
+
+    System.out.println("\nUnavailable Books (Rented):");
+    for (int i = 0; i < books.length; i++) {
+        if (books[i] != null && books[i].contains("Rented")) {
+            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
+        }
+    }
+
+    System.out.println();
 	}
+	
 	
 	private static void rentBook() throws IOException{
         System.out.print("Select a Book (1-10): ");
