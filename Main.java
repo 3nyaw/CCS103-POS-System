@@ -8,12 +8,14 @@ public class Main {
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static String[] books = new String[10];
 	private static String[] bookID = new String[10];
+	private static boolean[] bookRented = new boolean[10];
+	private static int size = 10;
 	private static int bookCount = 5;
 	private static int slot = 0;
 	private static int selectedBook = 0;
-	private static boolean rented = false;
     private static String[] renterNames = new String[10];
     private static String name;
+    private static int rentCounter = 0;
     
 	public static void main(String[] args) throws IOException {
 		
@@ -28,8 +30,10 @@ public class Main {
 		books[2] = bookID[2] + " | Pride and Prejudice | Jane Austen | P110.00";
 		books[3] = bookID[3] + " | The Great Gatsby | F. Scott Fitzgerald | P120.00";
 		books[4] = bookID[4] + " | The Lord of The Rings | J.R.R. Tolkien | P130.00";
-
 		
+		for(int i = 0; i < size; i++) {
+			bookRented[i] = false;
+		}
 		
 		viewBooks(books);
 		
@@ -46,33 +50,34 @@ public class Main {
 			
 			switch(command) {
 			case 1:
-				if(bookCount < 10) {
-					System.out.println("\n---------------------");
-					System.out.println("Add New Book. ");
-					addNewBook(books);
-				} else {
-					System.out.println("\nNo slot available.");
-					while(true) {
-						System.out.println("\n1. Replace book");
-						System.out.println("2. Remove book");
-						System.out.print("\nEnter command(1-2): ");
-						int input = Integer.parseInt(reader.readLine());
-						System.out.println("\n---------------------");
-						
-						if(input == 1) {
-							replace(books, slot, reader);
-							break;
-						} else if(input == 2) {
-							remove(books, slot);
-							break;
-						} else {
-							System.out.println("Invalid Input. Try again.");
-							continue;
-						}
-					}
-				}
-				viewBooks(books);
-				break;
+                if(bookCount < 10) {
+                    System.out.println("\n---------------------");
+                    System.out.println("Add New Book. ");
+                    addNewBook(books);
+                    viewBooks(books);
+                } else {
+                    System.out.println("\nNo slot available.");
+                    boolean actionTaken = false;
+                    while(!actionTaken) {
+                        System.out.println("\n1. Replace book");
+                        System.out.println("2. Remove book");
+                        System.out.print("\nEnter command(1-2): ");
+                        int input = Integer.parseInt(reader.readLine());
+                        System.out.println("\n---------------------");
+
+                        if(input == 1) {
+                            replace(books, slot, reader);
+                            actionTaken = true;;
+                        } else if(input == 2) {
+                            remove(books, slot);
+                            actionTaken = true;;
+                        } else {
+                            System.out.println("Invalid Input. Try again.");
+                        }
+                    }
+                    viewBooks(books);
+                }
+                break;
 			case 2: 
 				viewBookRecords();
 				break;
@@ -80,20 +85,23 @@ public class Main {
 				rentBook();
 				break;
 			case 4:
-				returnBook();
+                if(rentCounter==0) {
+                    System.out.println("\nInvalid Return, Book is not Rented");
+                    continue;
+                } else {
+    				returnBook();
+                }
 				break;
 			case 5:
 				viewTransactionHistory();
 				break;
 			case 6:
 				System.out.println("Exiting Program..");
-				break;
+				return;
 			default:
 				System.out.println("Invalid input. Try again.");
 				continue;
 			}
-			if(command == 6) 
-				break;
 		}
 	}
 	
@@ -113,9 +121,8 @@ public class Main {
 					if(uniqueID(input)) {
 						System.out.println("Book ID already exist. Try again.");
 						continue;
-					} else {
-						break;
 					}
+					break;
 				}
 				System.out.print("Title: ");
 				String title = reader.readLine();
@@ -129,6 +136,8 @@ public class Main {
 				break;
 				
 			//if book slot is occupied
+			} else if(bookRented[slot]){
+				System.out.println("Book is rented. Try again.");
 			} else {
 				while(true) {
 					//ask user for input
@@ -143,7 +152,7 @@ public class Main {
 					if(command == 1) { //choose another slot
 						break;
 					} else if(command == 2) { //replace book
-						if (consists(books[selectedBook], "Rented")) {
+						if (bookRented[slot]) {
 							System.out.println("Book is currently rented. Try again.");
 							break;
 					    }
@@ -176,7 +185,6 @@ public class Main {
 					System.out.println("Book ID already exist. Try again.");
 					break;
 				}
-		    
 		    break;
 		}
 
@@ -202,7 +210,7 @@ public class Main {
 	//checks if bookID is unique
 	private static boolean uniqueID(String input) {
 		boolean notUniqueID = false;
-		for(int i = 0; i < bookID.length; i++) {
+		for(int i = 0; i < size; i++) {
 			if(input.matches(bookID[i])) {
 				notUniqueID = true;
 				break;
@@ -213,15 +221,15 @@ public class Main {
 
 	private static void viewBookRecords() throws IOException{
 		System.out.println("\nAvailable Books:");
-	    for (int i = 0; i < books.length; i++) {
-	        if (books[i] != null && !consists(books[i], "Rented")) {
+	    for (int i = 0; i < size; i++) {
+	        if (books[i] != null && !bookRented[i]) {
 	            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
 	        }
 	    }
 	    
 	    System.out.println("\nUnavailable Books (Rented):");
-	    for (int i = 0; i < books.length; i++) {
-	        if (books[i] != null && consists(books[i], "Rented")) {
+	    for (int i = 0; i < size; i++) {
+	        if (books[i] != null && bookRented[i]) {
 	            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
 	        }
 	    }
@@ -232,13 +240,13 @@ public class Main {
         System.out.print("Select a Book (1-10): ");
         selectedBook = Integer.parseInt(reader.readLine()) - 1;
 
-        if(selectedBook < 0 || selectedBook >= books.length || books[selectedBook] == null) {
+        if(selectedBook < 0 || selectedBook >= size || books[selectedBook] == null) {
             System.out.println("Invalid Selection");
             System.out.println();
             return;
         }
 
-        if (consists(books[selectedBook], "Rented")) {
+        if (bookRented[selectedBook]) {
             System.out.println("The book is already rented out.");
             System.out.println();
             return;
@@ -247,11 +255,12 @@ public class Main {
         System.out.println("Selected Book: " + books[selectedBook]);
         System.out.print("Renter Name: ");
         name = reader.readLine();
+        renterNames[selectedBook] = name;
 
-        books[selectedBook] += (" (Rented)");
+        bookRented[selectedBook] = true;
         System.out.println("Book rented successfully!");
-        
         System.out.println();
+        rentCounter++;
         viewBooks(books);
 	}
 
@@ -267,13 +276,14 @@ public class Main {
                 System.out.print("\nBook ID: ");
                 String bookId = reader.readLine();
 
-                for(int i=0; i<bookID.length; i++) {
+                for(int i = 0; i < size; i++) {
                     if(bookId.matches(bookID[selectedBook])) {
                         bookIdFound = true;
                         bookDetails = books[i];
                         break;
                     }
                 }
+                
 
                 if(bookIdFound){
                     System.out.print(bookDetails + "\n");
@@ -285,14 +295,15 @@ public class Main {
             }
             System.out.println("\nBook Status: Available");
             System.out.println("Book Successfully Returned!\n");
+            bookRented[selectedBook] = false;
             break;
         }		
 	}
 
 	private static void viewTransactionHistory() {
-        renterNames[selectedBook] = name;
+        
         System.out.println("\n--- Transaction History ---\nRented Books");
-        for (int i = 0; i < books.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (renterNames[i] != null) {
                 System.out.println(books[i] + "\nRenter: " + renterNames[i]);
             }
@@ -301,7 +312,7 @@ public class Main {
     }
 
 	private static void viewBooks(String books[]) {
-		for(int i = 0; i < books.length; i++) {
+		for(int i = 0; i < size; i++) {
 			if(books[i] == null) {
 				System.out.println("Slot #" + (i+1) + ": Empty");
 			} else {
