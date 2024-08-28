@@ -10,6 +10,7 @@ public class Main {
 	private static String[] bookID = new String[10];
 	private static int bookCount = 5;
 	private static int slot = 0;
+	private static int selectedBook = 0;
     
 	public static void main(String[] args) throws IOException {
 		
@@ -154,29 +155,25 @@ public class Main {
 	}
 
 	private static void viewBookRecords() throws IOException{
-	          System.out.println("\nAvailable Books:");
-		//Checking if books are rented, Available books will be put in this category and leave them be if null.
-    for (int i = 0; i < books.length; i++) {
-        if (books[i] != null && !books[i].contains("Rented")) {
-            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
-        }
-    }
-
-    System.out.println("\nUnavailable Books (Rented):");
-		//Checking if books are rented, rented books will be put in this category and leave them be if null.
-    for (int i = 0; i < books.length; i++) {
-        if (books[i] != null && books[i].contains("Rented")) {
-            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
-        }
-    }
-
-    System.out.println();
-	}
+		System.out.println("\nAvailable Books:");
+	    for (int i = 0; i < books.length; i++) {
+	        if (books[i] != null && !books[i].contains("Rented")) {
+	            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
+	        }
+	    }
 	
+	    System.out.println("\nUnavailable Books (Rented):");
+	    for (int i = 0; i < books.length; i++) {
+	        if (books[i] != null && books[i].contains("Rented")) {
+	            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
+	        }
+	    }
+	    System.out.println();
+	}
 	
 	private static void rentBook() throws IOException{
         System.out.print("Select a Book (1-10): ");
-        int selectedBook = Integer.parseInt(reader.readLine()) - 1;
+        selectedBook = Integer.parseInt(reader.readLine()) - 1;
 
         if(selectedBook < 0 || selectedBook >= books.length || books[selectedBook] == null) {
             System.out.println("Invalid Selection");
@@ -203,43 +200,38 @@ public class Main {
 
 	private static void returnBook() throws IOException{
 		while (true) {
-		System.out.print("\n---------------------");
-		System.out.println("\nReturn a Book");
-		
-		System.out.print("\nEnter Book Slot: ");
-		int slot = Integer.parseInt(reader.readLine())-1;
-		
-		//Checking valid slot number
-		if(slot < 0 || slot >=books.length) {
-			System.out.println("Invalid Slot Number, Please Try Again. ");
-			continue;
-		}
-		//Checking book slot occupied
-		if ( books[slot] != null ) {
-			System.out.println("Book Slot Occupied. ");
-			continue;
-		}
-		
-		System.out.print("\nBook ID: ");
-		String bookID = reader.readLine();
-		System.out.print("Title: ");
-		String title = reader.readLine();
-		System.out.print("Author: ");
-		String author = reader.readLine();
-		System.out.print("Rental Price: ");
-		String price = reader.readLine();
-		books[slot] = bookID + " | " + title + " | " + author + " | " + price; 
-		bookCount++;
-		
-		System.out.print("\nDetails of The Book Returned [ " + " Book Id: " + bookID + " Title: " + title + " Author: " + author + " Rental Price: " + price+ " ]");
-		System.out.println();
-		System.out.print("Book Status: Available \n");
-		System.out.print("Book Successfully Returned!\n");
-		
-		
-		viewBooks(books);
-		break;
-		}		
+	        viewBooks(books);
+
+	        System.out.print("\n---------------------");
+	        System.out.println("\nReturn a Book");
+
+	        boolean bookIdFound = false;
+	        String bookDetails = " ";
+
+	        while(true) {
+	            System.out.print("\nBook ID: ");
+	            String bookId = reader.readLine();
+
+	            for(int i=0; i<bookID.length; i++) {
+	                if(bookId.equals(bookID[selectedBook])) {
+	                    bookIdFound = true;
+	                    bookDetails = books[i];
+	                    break;
+	                }
+	            }
+
+	            if(bookIdFound){
+	                System.out.print("Book Details: " +  bookDetails + "\n");
+	                System.out.println("\nBook Status: Available");
+	                System.out.println("Book Successfully Returned!");
+	                break;
+
+	            } else {
+	                System.out.print("Book ID Mismatch, Please Try Again.");
+	                continue;
+	            }
+	        }
+	    }		
 	}
 
 	private static void viewTransactionHistory() {
