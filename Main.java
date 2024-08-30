@@ -143,8 +143,10 @@ public class Main {
 					if (uniqueID(input)) {
 						System.out.println("Book ID already exists. Try again.");
 						continue; // If not unique, the program will ask again
+					} else {
+						bookID[slot] = input;
+						break; // Break loop if ID is unique
 					}
-					break; // Break loop if ID is unique
 				}
 
 				// Get book details from user
@@ -437,31 +439,31 @@ public class Main {
 		return true; // All characters match
 	}
 
-	private static boolean consists(String str1, String str2) {
-		// Check if either string is null or if the second string is longer
-		if (str1 == null || str2 == null || str2.length() > str1.length()) {
-			return false;
-		}
-
-		// Lengths of the main text and the word to search
-		int str1Length = str1.length();
-		int str2Length = str2.length();
-
-		// Iterate through the text
-		for (int i = 0; i <= str1Length - str2Length; i++) {
-			int j;
-
-			// Check each character of the substring
-			for (j = 0; j < str2Length; j++) {
-				if (str1.charAt(i + j) != str2.charAt(j)) {
-					break; //  if characters don't match
-				}
-			}
-
-			if (j == str2Length) {
-				return true; // Found a matching substring
-			}
-		}
-		return false; // No match found
-	}	
+//	private static boolean consists(String str1, String str2) {
+//		// Check if either string is null or if the second string is longer
+//		if (str1 == null || str2 == null || str2.length() > str1.length()) {
+//			return false;
+//		}
+//
+//		// Lengths of the main text and the word to search
+//		int str1Length = str1.length();
+//		int str2Length = str2.length();
+//
+//		// Iterate through the text
+//		for (int i = 0; i <= str1Length - str2Length; i++) {
+//			int j;
+//
+//			// Check each character of the substring
+//			for (j = 0; j < str2Length; j++) {
+//				if (str1.charAt(i + j) != str2.charAt(j)) {
+//					break; //  if characters don't match
+//				}
+//			}
+//
+//			if (j == str2Length) {
+//				return true; // Found a matching substring
+//			}
+//		}
+//		return false; // No match found
+//	}	
 }
