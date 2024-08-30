@@ -38,7 +38,7 @@ public class Main {
 		bookTitle[4] = "The Lord of The Rings";
 
 		// Add details for each book including ID, title, author, and price
-		books[0] = bookID[0] + " | " + bookTitle[0] + "| Harper Lee | P120.00";
+		books[0] = bookID[0] + " | " + bookTitle[0] + " | Harper Lee | P120.00";
 		books[1] = bookID[1] + " | " + bookTitle[1] + " | George Orwell | P150.00";
 		books[2] = bookID[2] + " | " + bookTitle[2] + " | Jane Austen | P110.00";
 		books[3] = bookID[3] + " | " + bookTitle[3] + " | F. Scott Fitzgerald | P120.00";
@@ -107,6 +107,7 @@ public class Main {
 			if(bookCount < 10) {
 				if(slot >= 10 || slot < 0){
 					System.out.println("Invalid input. Try again.");
+					continue;
 				} else if(books[slot] == null) {
 					while (true) {
 						System.out.println("\n---------------------");
@@ -124,7 +125,7 @@ public class Main {
 							break; // Break loop if ID is unique
 						}
 					}
-
+					
 					// Get book details from user
 					String title = "";
 					while(true) {
@@ -134,7 +135,7 @@ public class Main {
 							System.out.println("Book title already exist. Try again.");
 							continue;
 						} else {
-							bookID[slot] = inputTitle;
+							bookTitle[slot] = inputTitle;
 							break;
 						}
 					}
@@ -145,7 +146,7 @@ public class Main {
 					String price = reader.readLine();
 
 					// Add book details to the specified slot
-					books[slot] = bookID[slot] + " | " + title + " | " + author + " | " + price;
+					books[slot] = bookID[slot] + " | " + bookTitle[slot] + " | " + author + " | " + price;
 					slotTaken = true;
 					bookCount++; // Increase the count of books
 					break;
@@ -182,11 +183,16 @@ public class Main {
 						}
 					}
 				}
+			} else if(slot >= 10 || slot < 0) { // Not within range of a full book slot
+				System.out.println("Invalid Input. Try again.");
+				continue;
+				
 			} else {
 				// If no space is available, offer options to replace or remove a book
 				System.out.println("\nNo slot available.");
 				while(true) {
 					System.out.println("\n[1] Remove and Replace a book?");
+					System.out.println("\n[2] Exit?");
 					System.out.print("\nEnter 1 to confirm: ");
 					int input = Integer.parseInt(reader.readLine());
 					System.out.println("\n---------------------");
@@ -194,29 +200,33 @@ public class Main {
 					if(input == 1) { // Replace an existing book
 						replace(books, slot);
 						break;
+					} else if (input == 2) { // To exit
+						break;
 					} else {
 						// Handle invalid input
 						System.out.println("Invalid Input. Try again.");
 						continue;
 					}
 				}
-
 			}
-			viewBookRecords();                
-		}
+			break;
+		} 
+		System.out.println();
+		viewBooks(books);  
 	}
 
 	/*
 	 * replacing a book
 	 */    
 	private static void replace(String[] books, int slot) throws IOException {
+		String inputID = "";
+		
 		while (true) {
 			// Ask user to enter a new Book ID
 			System.out.print("\nBook ID: ");
-			String input = reader.readLine();
-
+			inputID = reader.readLine();
 			// Check if the Book ID already exists
-			if (uniqueID(input)) {
+			if (uniqueID(inputID)) {
 				// If the Book ID exists, show a message and exit the loop
 				System.out.println("Book ID already exists. Try again.");
 				break;
@@ -224,10 +234,26 @@ public class Main {
 			break; // Break the loop if Book ID is unique
 		}
 
-		// Ask user to enter the book's title
-		System.out.print("Title: ");
-		String title = reader.readLine();
-
+		bookID[slot] = inputID;
+		
+		String inputTitle= "";
+		
+		while(true) {
+			// Ask user to enter the book's title
+			System.out.print("Title: ");
+			inputTitle = reader.readLine();
+			
+			
+			// Check if the Book ID already exists
+			if (uniqueTitle(inputTitle)) {
+				// If the Book ID exists, show a message and exit the loop
+				System.out.println("Book title already exists. Try again.");
+				break;
+			}
+			break; // Break the loop if Book ID is unique
+		}
+		bookTitle[slot] = inputTitle;
+		
 		// Ask user to enter the book's author
 		System.out.print("Author: ");
 		String author = reader.readLine();
@@ -237,7 +263,7 @@ public class Main {
 		String price = reader.readLine();
 
 		// Update the book details in the specified slot
-		books[slot] = bookID[slot] + " | " + title + " | " + author + " | " + price;
+		books[slot] = bookID[slot] + " | " + bookTitle[slot] + " | " + author + " | " + price;
 
 		// Show a message indicating the book has been replaced
 		System.out.println("Book at slot " + slot + " has been replaced.");
@@ -444,31 +470,4 @@ public class Main {
 		}
 		return true; // All characters match
 	}
-	private static boolean consists(String str1, String str2) {
-	// Check if either string is null or if the second string is longer
-	if (str1 == null || str2 == null || str2.length() > str1.length()) {
-		return false;
-	}
-
-	// Lengths of the main text and the word to search
-	int str1Length = str1.length();
-	int str2Length = str2.length();
-
-	// Iterate through the text
-	for (int i = 0; i <= str1Length - str2Length; i++) {
-		int j;
-
-		// Check each character of the substring
-		for (j = 0; j < str2Length; j++) {
-			if (str1.charAt(i + j) != str2.charAt(j)) {
-				break; //  if characters don't match
-			}
-		}
-
-		if (j == str2Length) {
-			return true; // Found a matching substring
-		}
-	}
-	return false; // No match found
-}
 }
