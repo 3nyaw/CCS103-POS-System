@@ -9,8 +9,9 @@ public class Main {
 	 * declare or initialize variables to access globally
 	 */	
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); // BufferedReader to read input from the user
-	private static String[] bookID = new String[10]; // Array to store unique IDs of the books
 	private static String[] books = new String[10]; // Array to store details about books
+	private static String[] bookID = new String[10]; // Array to store unique IDs of the books
+	private static String[] bookTitle = new String[10]; // Array to store unique IDs of the books
 	private static boolean[] bookRented = new boolean[10]; // Array to track whether the book is rented or not
 	private static boolean[] bookReturned = new boolean[10]; // Array to track whether the book is returned or not
 	private static int size = 10; // Variable to store the total number of slots
@@ -29,13 +30,19 @@ public class Main {
 		bookID[2] = "2023-003";
 		bookID[3] = "2024-001";
 		bookID[4] = "2024-002";
+		
+		bookTitle[0] = "To Kill a Mockingbird";
+		bookTitle[1] = "1984";
+		bookTitle[2] = "Pride and Prejudice";
+		bookTitle[3] = "The Great Gatsby";
+		bookTitle[4] = "The Lord of The Rings";
 
 		// Add details for each book including ID, title, author, and price
-		books[0] = bookID[0] + " | To Kill a Mockingbird | Harper Lee | P120.00";
-		books[1] = bookID[1] + " | 1984 | George Orwell | P150.00";
-		books[2] = bookID[2] + " | Pride and Prejudice | Jane Austen | P110.00";
-		books[3] = bookID[3] + " | The Great Gatsby | F. Scott Fitzgerald | P120.00";
-		books[4] = bookID[4] + " | The Lord of The Rings | J.R.R. Tolkien | P130.00";
+		books[0] = bookID[0] + " | " + bookTitle[0] + "| Harper Lee | P120.00";
+		books[1] = bookID[1] + " | " + bookTitle[1] + " | George Orwell | P150.00";
+		books[2] = bookID[2] + " | " + bookTitle[2] + " | Jane Austen | P110.00";
+		books[3] = bookID[3] + " | " + bookTitle[3] + " | F. Scott Fitzgerald | P120.00";
+		books[4] = bookID[4] + " | " + bookTitle[4] + " | J.R.R. Tolkien | P130.00";
 
 		// Set all books as not rented and returned
 		for(int i = 0; i < size; i++) {
@@ -65,35 +72,7 @@ public class Main {
 			// Handle the user's command
 			switch(command) {
 			case 1: // Add a new book if there's space available
-				if(bookCount < 10) {
-					System.out.println("\n---------------------");
-					System.out.println("Add New Book.");
-					addNewBook(books);
-					viewBookRecords();                
-				} else {
-					// If no space is available, offer options to replace or remove a book
-					System.out.println("\nNo slot available.");
-					while(true) {
-						System.out.println("\n1. Replace book");
-						System.out.println("2. Remove book");
-						System.out.print("\nEnter command(1-2): ");
-						int input = Integer.parseInt(reader.readLine());
-						System.out.println("\n---------------------");
-
-						if(input == 1) { // Replace an existing book
-							replace(books, slot);
-							break;
-						} else if(input == 2) { // Remove an existing book
-							remove(books, slot);
-							break;
-						} else {
-							// Handle invalid input
-							System.out.println("Invalid Input. Try again.");
-							continue;
-						}
-					}
-					viewBookRecords();
-				}
+				addNewBook(books);
 				break;
 			case 2: 
 				viewBookRecords(); // Show the records of all books
@@ -102,12 +81,7 @@ public class Main {
 				rentBook(); // Rent a book
 				break;
 			case 4:
-				if(rentCounter == 0) {
-					System.out.println("\nInvalid Return. No Book is Rented.");
-					continue;
-				} else {
-					returnBook(); // Return a book if any book is rented
-				}
+				returnBook(); // Return a book if any book is rented
 				break;
 			case 5:
 				viewTransactionHistory(); // Show the history of transactions
@@ -130,82 +104,105 @@ public class Main {
 			boolean slotTaken = false;
 
 			// Check if the chosen book slot is empty
-			if(slot >= 10 || slot < 0){
-				System.out.println("Invalid input. Try again.");
-			}
-			else if(books[slot] == null) {
-				while (true) {
-					// Ask user for a book ID
-					System.out.print("\nBook ID: ");
-					String input = reader.readLine();
+			if(bookCount < 10) {
+				if(slot >= 10 || slot < 0){
+					System.out.println("Invalid input. Try again.");
+				} else if(books[slot] == null) {
+					while (true) {
+						System.out.println("\n---------------------");
+						System.out.println("Add New Book.");
+						// Ask user for a book ID
+						System.out.print("\nBook ID: ");
+						String inputID = reader.readLine();
 
-					// Check if the book ID is unique
-					if (uniqueID(input)) {
-						System.out.println("Book ID already exists. Try again.");
-						continue; // If not unique, the program will ask again
-					} else {
-						bookID[slot] = input;
-						break; // Break loop if ID is unique
+						// Check if the book ID is unique
+						if (uniqueID(inputID)) {
+							System.out.println("Book ID already exists. Try again.");
+							continue; // If not unique, the program will ask again
+						} else {
+							bookID[slot] = inputID;
+							break; // Break loop if ID is unique
+						}
+					}
+
+					// Get book details from user
+					String title = "";
+					while(true) {
+						System.out.print("Title: ");
+						String inputTitle = reader.readLine();
+						if(uniqueTitle(inputTitle)) {
+							System.out.println("Book title already exist. Try again.");
+							continue;
+						} else {
+							bookID[slot] = inputTitle;
+							break;
+						}
+					}
+
+					System.out.print("Author: ");
+					String author = reader.readLine();
+					System.out.print("Rental Price: ");
+					String price = reader.readLine();
+
+					// Add book details to the specified slot
+					books[slot] = bookID[slot] + " | " + title + " | " + author + " | " + price;
+					slotTaken = true;
+					bookCount++; // Increase the count of books
+					break;
+
+					// If the slot is already occupied by a rented book
+				} else if (bookRented[slot]) {
+					System.out.println("Book is rented. Try again.");
+				} else { // If the slot is occupied by a non-rented book
+					while (true) {
+						// Inform the user that the slot is occupied and provide options
+						System.out.println("\nBook slot occupied.");
+						System.out.println("\n1. Choose another slot.");
+						System.out.println("2. Replace book");
+
+						// Ask user to choose an option
+						System.out.print("\nEnter command(1-2): ");
+						int command = Integer.parseInt(reader.readLine());
+						System.out.println("\n---------------------");
+
+						if (command == 1) {
+							// Option to choose a different slot
+							break;
+						} else if (command == 2) {
+							// Option to replace the current book in the slot
+							if (bookRented[slot]) {
+								System.out.println("Book is currently rented. Try again.");
+								break;
+							}
+							replace(books, slot); // Call replace method
+							break;
+						} else { // If user enters an invalid option
+							System.out.println("Invalid Input. Try again.");
+							continue; // Continue asking for a valid option
+						}
 					}
 				}
-
-				// Get book details from user
-				System.out.print("Title: ");
-				String title = reader.readLine();
-				System.out.print("Author: ");
-				String author = reader.readLine();
-				System.out.print("Rental Price: ");
-				String price = reader.readLine();
-
-				// Add book details to the specified slot
-				books[slot] = bookID[slot] + " | " + title + " | " + author + " | " + price;
-				slotTaken = true;
-				bookCount++; // Increase the count of books
-				break;
-
-				// If the slot is already occupied by a rented book
-			} else if (bookRented[slot]) {
-				System.out.println("Book is rented. Try again.");
-
-				// If the slot is occupied by a non-rented book
 			} else {
-				while (true) {
-					// Inform the user that the slot is occupied and provide options
-					System.out.println("\nBook slot occupied.");
-					System.out.println("\n1. Choose another slot.");
-					System.out.println("2. Replace book");
-					System.out.println("3. Remove book");
-
-					// Ask user to choose an option
-					System.out.print("\nEnter command(1-3): ");
-					int command = Integer.parseInt(reader.readLine());
+				// If no space is available, offer options to replace or remove a book
+				System.out.println("\nNo slot available.");
+				while(true) {
+					System.out.println("\n[1] Remove and Replace a book?");
+					System.out.print("\nEnter 1 to confirm: ");
+					int input = Integer.parseInt(reader.readLine());
 					System.out.println("\n---------------------");
 
-					if (command == 1) {
-						// Option to choose a different slot
+					if(input == 1) { // Replace an existing book
+						replace(books, slot);
 						break;
-					} else if (command == 2) {
-						// Option to replace the current book in the slot
-						if (bookRented[slot]) {
-							System.out.println("Book is currently rented. Try again.");
-							break;
-						}
-						replace(books, slot); // Call replace method
-						break;
-					} else if (command == 3) { // Option to remove the current book in the slot
-						if (bookRented[slot]) {
-							System.out.println("Book is currently rented. Try again.");
-							break;
-						}
-						remove(books, slot); // Call remove method
-						break;
-					} else { // If user enters an invalid option
-
+					} else {
+						// Handle invalid input
 						System.out.println("Invalid Input. Try again.");
-						continue; // Continue asking for a valid option
+						continue;
 					}
 				}
+
 			}
+			viewBookRecords();                
 		}
 	}
 
@@ -246,21 +243,6 @@ public class Main {
 		System.out.println("Book at slot " + slot + " has been replaced.");
 
 		// Display the updated list of books
-		viewBookRecords();    }
-
-	// Removing a book
-	// Method to remove a book from a specific slot
-	private static void remove(String[] book, int slot) throws IOException{
-		// Set the book at the specified slot to null (remove it)
-		book[slot] = null;
-
-		// Print a message indicating the book has been removed
-		System.out.println("Book at slot " + slot + " has been removed.");
-
-		// Decrease the count of books by one
-		bookCount--;
-
-		// Display the updated list of books
 		viewBookRecords();    
 	}
 
@@ -280,27 +262,43 @@ public class Main {
 		// Return true if the ID is not unique, false otherwise
 		return notUniqueID;
 	}
+	
+	private static boolean uniqueTitle(String input) {
+		boolean notUniqueTitle = false;
+
+		// Loop through all book IDs to check for a match
+		for (int i = 0; i < size; i++) {
+			// If the input ID matches an existing book ID
+			if (matches(input, bookTitle[i])) {
+				notUniqueTitle = true; // Mark it as not unique
+				break; // Stop checking further
+			}
+		}
+
+		// Return true if the ID is not unique, false otherwise
+		return notUniqueTitle;
+	}
 
 	private static void viewBookRecords() throws IOException {
-	    // Print a list of available books
-	    System.out.println("\nAvailable Books:");
-	    for (int i = 0; i < size; i++) {
-	        // A book is considered available if it's not null and either not rented or it's rented and returned
-	        if (books[i] != null && (!bookRented[i] || bookReturned[i])) {
-	            System.out.println("Slot #" + (i + 1) + ": " + books[i]); // Show details of each book that is not rented or is returned
-	        }
-	    }
+		// Print a list of available books
+		System.out.println("\nAvailable Books:");
+		for (int i = 0; i < size; i++) {
+			// A book is considered available if it's not null and either not rented or it's rented and returned
+			if (books[i] != null && (!bookRented[i] || bookReturned[i])) {
+				System.out.println("Slot #" + (i + 1) + ": " + books[i]); // Show details of each book that is not rented or is returned
+			}
+		}
 
-	    // Print a list of rented books
-	    System.out.println("\nUnavailable Books (Rented):");
-	    for (int i = 0; i < size; i++) {
-	        // A book is considered rented if it's not null and rented and not yet returned
-	        if (books[i] != null && bookRented[i] && !bookReturned[i]) {
-	            // Show details of each book that is currently rented and not yet returned
-	            System.out.println("Slot #" + (i + 1) + ": " + books[i]);
-	        }
-	    }
-	    System.out.println();
+		// Print a list of rented books
+		System.out.println("\nUnavailable Books (Rented):");
+		for (int i = 0; i < size; i++) {
+			// A book is considered rented if it's not null and rented and not yet returned
+			if (books[i] != null && bookRented[i] && !bookReturned[i]) {
+				// Show details of each book that is currently rented and not yet returned
+				System.out.println("Slot #" + (i + 1) + ": " + books[i]);
+			}
+		}
+		System.out.println();
 	}
 
 	/*
@@ -333,6 +331,9 @@ public class Main {
 
 		// Mark the book as rented
 		bookRented[slot] = true;
+		if(bookRented[slot]) {
+			bookReturned[slot] = false;
+		}
 		System.out.println("Book rented successfully!");
 		System.out.println();
 
@@ -343,49 +344,55 @@ public class Main {
 
 	private static void returnBook() throws IOException{
 		while (true) {
-			// Show the list of books
-			System.out.print("\n---------------------");
-			System.out.println("\nReturn a Book");
-			boolean bookIDFound = false;
-			String bookDetails = " ";
+			if(rentCounter == 0) {
+				System.out.println("\nInvalid Return. No Book is Rented.");
+				continue;
+			} else {
+				// Show the list of books
+				System.out.print("\n---------------------");
+				System.out.println("\nReturn a Book");
+				boolean bookIDFound = false;
+				String bookDetails = " ";
 
-			while(true) {
-				// Ask for the book ID to return
-				System.out.print("\nBook ID: ");
-				inputBookID = reader.readLine();
+				while(true) {
+					// Ask for the book ID to return
+					System.out.print("\nBook ID: ");
+					inputBookID = reader.readLine();
 
-				// Check if the book ID matches any rented book
-				for(int i = 0; i < bookID.length; i++) {
-					if(matches(inputBookID, bookID[i])) {
-						bookIDFound = true; // Mark that the book ID was found
-						bookDetails = books[i]; // Get the book details
-						previousRenterNames[i] = renterNames[i];
-						renterNames[i] = null;
+					// Check if the book ID matches any rented book
+					for(int i = 0; i < bookID.length; i++) {
+						if(matches(inputBookID, bookID[i])) {
+							bookIDFound = true; // Mark that the book ID was found
+							bookDetails = books[i]; // Get the book details
+							previousRenterNames[i] = renterNames[i];
+							renterNames[i] = null;
+							slot = i;
+							break;
+						}
+					}
+
+					// If book ID is found, show the details
+					if(bookIDFound){
+						System.out.print(bookDetails + "\n");
 						break;
+					} else {
+						System.out.print("Book ID Mismatch, Please Try Again.");
+						continue;
 					}
 				}
 
-				// If book ID is found, show the details
-				if(bookIDFound){
-					System.out.print(bookDetails + "\n");
-					break;
-				} else {
-					System.out.print("Book ID Mismatch, Please Try Again.");
-					continue;
+				// Mark the book as returned
+				bookReturned[slot] = true;
+				if(bookReturned[slot]) {
+					bookRented[slot] = false;
 				}
-			}
 
-			// Mark the book as returned
-			bookReturned[selectedBook] = true;
-			if(bookReturned[slot]) {
-				bookRented[slot] = false;
+				viewBookRecords(); 
+				System.out.println("\nBook Status: Available");
+				System.out.println("Book Successfully Returned!\n");
+				break;			
 			}
-			
-			viewBookRecords(); 
-			System.out.println("\nBook Status: Available");
-			System.out.println("Book Successfully Returned!\n");
-			break;
-		}        
+		}
 	}
 
 	private static void viewTransactionHistory() {
@@ -429,7 +436,6 @@ public class Main {
 		} else if (str1.length() != str2.length()) {
 			return false; // Strings have different lengths
 		}
-
 		// Compare each character of both strings
 		for (int i = 0; i < str1.length(); i++) {
 			if (str1.charAt(i) != str2.charAt(i)) {
@@ -438,32 +444,31 @@ public class Main {
 		}
 		return true; // All characters match
 	}
+	private static boolean consists(String str1, String str2) {
+	// Check if either string is null or if the second string is longer
+	if (str1 == null || str2 == null || str2.length() > str1.length()) {
+		return false;
+	}
 
-//	private static boolean consists(String str1, String str2) {
-//		// Check if either string is null or if the second string is longer
-//		if (str1 == null || str2 == null || str2.length() > str1.length()) {
-//			return false;
-//		}
-//
-//		// Lengths of the main text and the word to search
-//		int str1Length = str1.length();
-//		int str2Length = str2.length();
-//
-//		// Iterate through the text
-//		for (int i = 0; i <= str1Length - str2Length; i++) {
-//			int j;
-//
-//			// Check each character of the substring
-//			for (j = 0; j < str2Length; j++) {
-//				if (str1.charAt(i + j) != str2.charAt(j)) {
-//					break; //  if characters don't match
-//				}
-//			}
-//
-//			if (j == str2Length) {
-//				return true; // Found a matching substring
-//			}
-//		}
-//		return false; // No match found
-//	}	
+	// Lengths of the main text and the word to search
+	int str1Length = str1.length();
+	int str2Length = str2.length();
+
+	// Iterate through the text
+	for (int i = 0; i <= str1Length - str2Length; i++) {
+		int j;
+
+		// Check each character of the substring
+		for (j = 0; j < str2Length; j++) {
+			if (str1.charAt(i + j) != str2.charAt(j)) {
+				break; //  if characters don't match
+			}
+		}
+
+		if (j == str2Length) {
+			return true; // Found a matching substring
+		}
+	}
+	return false; // No match found
+}
 }
